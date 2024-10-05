@@ -17,4 +17,12 @@ public class linkedList{
 			current.next = newUser;	// Add user to end of list
 		}
 	}
+	
+	public void printUsers() {
+		UserNode current = head;	//Start at beginning of list
+		while (current != null) {	//Recursion function
+			System.out.println("Username: " + current.username);	//Prints all usernames
+			current = current.next;
+		}
+	}
 }
