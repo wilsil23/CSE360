@@ -1,6 +1,6 @@
 package UserLinkedList;
 
-public class UserListFunctions{
+public class linkedList{
 	public UserNode head;	//Start of linked list
 	
 	// Method to add to linked list
