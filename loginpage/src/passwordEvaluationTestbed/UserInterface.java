@@ -1,6 +1,8 @@
 
 package passwordEvaluationTestbed;
 
+import java.io.ObjectInputStream.GetField;
+
 // JavaFX imports needed to support the Graphical User Interface
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -75,27 +77,22 @@ public class UserInterface {
 		
 		// Label the password input field with a title just above it, left aligned
 		setupLabelUI(label_Password, "Arial", 14, PasswordEvaluationGUITestbed.WINDOW_WIDTH-10, 
-				Pos.BASELINE_LEFT, 10, 50);
+				Pos.BASELINE_LEFT, 10, 280);
 		
 		setupLabelUI(label_Username, "Arial", 14, PasswordEvaluationGUITestbed.WINDOW_WIDTH-10, 
 				Pos.BASELINE_LEFT, 10, 200);
 		
 		setupLabelUI(label_inviteCode, "Arial", 14, PasswordEvaluationGUITestbed.WINDOW_WIDTH-10, 
-				Pos.BASELINE_LEFT, 10, 280);
+				Pos.BASELINE_LEFT, 10, 50);
 		// Establish the text input operand field and when anything changes in the password,
 		// the code will process the entire input to ensure that it is valid or in error.
 		setupTextUI(text_Password, "Arial", 18, PasswordEvaluationGUITestbed.WINDOW_WIDTH-20,
-				Pos.BASELINE_LEFT, 10, 70, true);
+				Pos.BASELINE_LEFT, 10, 300, true);
 		setupTextUI(text_Username, "Arial", 18, PasswordEvaluationGUITestbed.WINDOW_WIDTH-20,
 				Pos.BASELINE_LEFT, 10, 220, true);
 		setupTextUI(text_inviteCode, "Arial", 18, PasswordEvaluationGUITestbed.WINDOW_WIDTH-20,
-				Pos.BASELINE_LEFT, 10, 300, true);
+				Pos.BASELINE_LEFT, 10, 70, true);
 		
-		text_Password.textProperty().addListener((observable, oldValue, newValue) 
-				-> {setPassword(); });
-		
-		text_Username.textProperty().addListener((observable, oldValue, newValue) 
-				-> {setPassword(); });
 		
 		
 		
@@ -169,6 +166,20 @@ public class UserInterface {
 				label_Requirements, label_UpperCase, label_LowerCase, label_NumericDigit,
 				label_SpecialChar, label_LongEnough);
 	}
+	//Method for retrieving input of username, password, and inviteCode
+	
+	private TextField getPassword() {
+		return text_Password;
+	}
+	
+	private TextField getUsername() {
+		return text_inviteCode;
+	}
+	
+	private TextField getInviteCode() {
+		return text_inviteCode;
+	}
+	
 	
 	/**********
 	 * Private local method to initialize the standard fields for a label
@@ -260,16 +271,16 @@ public class UserInterface {
 					PasswordEvaluator.foundNumericDigit && PasswordEvaluator.foundSpecialChar &&
 					PasswordEvaluator.foundLongEnough) {
 				// All the criteria has been met.  display the success message to the console
-				System.out.println("Success! The password satisfies the requirements.");
+				System.out.println("");
 				
 				// Display the success message and make it green on the GUI
 				validPassword.setTextFill(Color.GREEN);
-				validPassword.setText("Success! The password satisfies the requirements.");
+				validPassword.setText("");
 			} else {
 				// At least one criterion has not been satisfied.  Display an appropriate message
 				// in red on the console
 				validPassword.setTextFill(Color.RED);
-				validPassword.setText("The password as currently entered is not yet valid.");
+				validPassword.setText("");
 			}
 		}
 	}
