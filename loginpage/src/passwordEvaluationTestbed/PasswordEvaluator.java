@@ -12,6 +12,7 @@ public class PasswordEvaluator {
 	public static boolean foundSpecialChar = false;
 	public static boolean foundLongEnough = false;
 	private static String inputLine = "";
+	private static String inputLine2 = "";
 	private static char currentChar;
 	private static int currentCharNdx;
 	private static boolean running;
@@ -22,6 +23,7 @@ public class PasswordEvaluator {
 		System.out.println("The password size: " + inputLine.length() + "  |  The currentCharNdx: " + 
 				currentCharNdx + "  |  The currentChar: \"" + currentChar + "\"");
 	}
+	
 
 	public static String evaluatePassword(String input) {
 		passwordErrorMessage = "";

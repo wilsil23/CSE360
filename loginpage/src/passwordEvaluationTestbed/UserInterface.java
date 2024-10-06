@@ -36,9 +36,13 @@ public class UserInterface {
 	
 	// These are the application values required by the Graphical User Interface
 	// The names of the variables specify their function and each is initialize as required
-	private Label label_ApplicationTitle = new Label("Password Evaluation Testbed");
+	private Label label_ApplicationTitle = new Label("Login Page");
 	private Label label_Password = new Label("Enter the password here");
+	private Label label_Username = new Label("Enter the username here");
+	private Label label_inviteCode = new Label("Enter invite code");
+	private TextField text_inviteCode = new TextField();
 	private TextField text_Password = new TextField();
+	private TextField text_Username = new TextField();
 	private Label label_errPassword = new Label("");	
     private Label noInputFound = new Label("");
 	private TextFlow errPassword;
@@ -46,13 +50,12 @@ public class UserInterface {
     private Text errPasswordPart2 = new Text();
     private Label errPasswordPart3 = new Label("");
     private Label validPassword = new Label("");
-    private Label label_Requirements = 
-    		new Label("A valid password must satisfy the following requirements:");
-    private Label label_UpperCase = new Label("At least one upper case letter");
-    private Label label_LowerCase = new Label("At least one lower case letter");
-    private Label label_NumericDigit = new Label("At least one numeric digit");
-    private Label label_SpecialChar = new Label("At least one special character");
-    private Label label_LongEnough = new Label("At least eight characters");
+    private Label label_Requirements = new Label("");
+    private Label label_UpperCase = new Label("");
+    private Label label_LowerCase = new Label("");
+    private Label label_NumericDigit = new Label("");
+    private Label label_SpecialChar = new Label("");
+    private Label label_LongEnough = new Label("");
 	
 	/**********************************************************************************************
 
@@ -74,18 +77,33 @@ public class UserInterface {
 		setupLabelUI(label_Password, "Arial", 14, PasswordEvaluationGUITestbed.WINDOW_WIDTH-10, 
 				Pos.BASELINE_LEFT, 10, 50);
 		
+		setupLabelUI(label_Username, "Arial", 14, PasswordEvaluationGUITestbed.WINDOW_WIDTH-10, 
+				Pos.BASELINE_LEFT, 10, 200);
+		
+		setupLabelUI(label_inviteCode, "Arial", 14, PasswordEvaluationGUITestbed.WINDOW_WIDTH-10, 
+				Pos.BASELINE_LEFT, 10, 280);
 		// Establish the text input operand field and when anything changes in the password,
 		// the code will process the entire input to ensure that it is valid or in error.
 		setupTextUI(text_Password, "Arial", 18, PasswordEvaluationGUITestbed.WINDOW_WIDTH-20,
 				Pos.BASELINE_LEFT, 10, 70, true);
+		setupTextUI(text_Username, "Arial", 18, PasswordEvaluationGUITestbed.WINDOW_WIDTH-20,
+				Pos.BASELINE_LEFT, 10, 220, true);
+		setupTextUI(text_inviteCode, "Arial", 18, PasswordEvaluationGUITestbed.WINDOW_WIDTH-20,
+				Pos.BASELINE_LEFT, 10, 300, true);
+		
 		text_Password.textProperty().addListener((observable, oldValue, newValue) 
 				-> {setPassword(); });
+		
+		text_Username.textProperty().addListener((observable, oldValue, newValue) 
+				-> {setPassword(); });
+		
+		
 		
 		// Establish an error message for the case where there is no input
 		noInputFound.setTextFill(Color.RED);
 		noInputFound.setAlignment(Pos.BASELINE_LEFT);
 		setupLabelUI(noInputFound, "Arial", 14, PasswordEvaluationGUITestbed.WINDOW_WIDTH-10, 
-				Pos.BASELINE_LEFT, 10, 110);		
+				Pos.BASELINE_LEFT, 10, 260);		
 		
 		// Establish an error message for the password, left aligned
 		label_errPassword.setTextFill(Color.RED);
@@ -116,7 +134,7 @@ public class UserInterface {
 	    setupLabelUI(label_UpperCase, "Arial", 14, PasswordEvaluationGUITestbed.WINDOW_WIDTH-10, 
 				Pos.BASELINE_LEFT, 30, 230);
 	    label_UpperCase.setTextFill(Color.RED);
-	    	    label_LowerCase.setText("At least one lower case letter");
+	    	    label_LowerCase.setText("");
 
 	    // Lower case character found or not found
 	    setupLabelUI(label_LowerCase, "Arial", 14, PasswordEvaluationGUITestbed.WINDOW_WIDTH-10, 
@@ -137,7 +155,6 @@ public class UserInterface {
 	    setupLabelUI(label_LongEnough, "Arial", 14, PasswordEvaluationGUITestbed.WINDOW_WIDTH-10, 
 				Pos.BASELINE_LEFT, 30, 350);
 	    label_LongEnough.setTextFill(Color.RED);
-		resetAssessments();
 		
 		// Setup the valid Password message
 		validPassword.setTextFill(Color.GREEN);
@@ -146,7 +163,8 @@ public class UserInterface {
 						PasswordEvaluationGUITestbed.WINDOW_WIDTH-150-10, Pos.BASELINE_LEFT, 10, 380);				
 
 		// Place all of the just-initialized GUI elements into the pane, whether they have text or not
-		theRoot.getChildren().addAll(label_ApplicationTitle, label_Password, text_Password, 
+		theRoot.getChildren().addAll(label_ApplicationTitle, label_Password, label_Username, label_inviteCode, 
+				text_Username, text_Password, text_inviteCode,
 				noInputFound, label_errPassword, errPassword, errPasswordPart3, validPassword,
 				label_Requirements, label_UpperCase, label_LowerCase, label_NumericDigit,
 				label_SpecialChar, label_LongEnough);
@@ -191,7 +209,7 @@ public class UserInterface {
 		errPasswordPart1.setText("");
 		errPasswordPart2.setText("");
 		validPassword.setText("");
-		resetAssessments();				// Reset the flags for all of the assessment criteria
+				// Reset the flags for all of the assessment criteria
 		performEvaluation();			// Perform the evaluation to set all the assessment flags
 	}
 	
@@ -205,13 +223,13 @@ public class UserInterface {
 		
 		// If the input is empty, set that flag and stop
 		if (inputText.isEmpty())
-		    noInputFound.setText("No input text found!");
+		    noInputFound.setText("");
 		else
 		{
 			// There is input to process.  Call the evaluatePassword method to assess each of the
 			// remaining criteria 
 			String errMessage = PasswordEvaluator.evaluatePassword(inputText);
-			updateFlags();				// Check for each criteria and set the GUI for that element
+						// Check for each criteria and set the GUI for that element
 										// to green with the criteria satisfied
 			if (errMessage != "") {
 				// If the returned string from evaluatePassword is not empty, there is an errors!

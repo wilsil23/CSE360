@@ -59,6 +59,7 @@ public class PasswordEvaluationGUITestbed extends Application {
 		
 		theStage.show();									// Show the stage to the user
 		
+		
 		// When the stage is shown to the user, the pane within the window is visible.  This means
 		// that the labels, fields, and buttons of the Graphical User Interface (GUI) are visible 
 		// and it is now possible for the user to select input fields and enter values into them, 
