@@ -5,6 +5,7 @@ import java.io.ObjectInputStream.GetField;
 
 // JavaFX imports needed to support the Graphical User Interface
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
@@ -58,6 +59,8 @@ public class UserInterface {
     private Label label_NumericDigit = new Label("");
     private Label label_SpecialChar = new Label("");
     private Label label_LongEnough = new Label("");
+    
+    private Button loginButton = new Button();
 	
 	/**********************************************************************************************
 
@@ -71,9 +74,11 @@ public class UserInterface {
 	 */
 	public UserInterface(Pane theRoot) {
 		
-		// Label theScene with the name of the testbed, centered at the top of the pane
-		setupLabelUI(label_ApplicationTitle, "Arial", 24, PasswordEvaluationGUITestbed.WINDOW_WIDTH, 
-				Pos.CENTER, 0, 10);
+		loginButton.setText("login");
+		
+		loginButton.setLayoutX(225);
+		loginButton.setLayoutY(400);	
+		
 		
 		// Label the password input field with a title just above it, left aligned
 		setupLabelUI(label_Password, "Arial", 14, PasswordEvaluationGUITestbed.WINDOW_WIDTH-10, 
@@ -92,6 +97,8 @@ public class UserInterface {
 				Pos.BASELINE_LEFT, 10, 220, true);
 		setupTextUI(text_inviteCode, "Arial", 18, PasswordEvaluationGUITestbed.WINDOW_WIDTH-20,
 				Pos.BASELINE_LEFT, 10, 70, true);
+		
+		
 		
 		
 		
@@ -164,8 +171,9 @@ public class UserInterface {
 				text_Username, text_Password, text_inviteCode,
 				noInputFound, label_errPassword, errPassword, errPasswordPart3, validPassword,
 				label_Requirements, label_UpperCase, label_LowerCase, label_NumericDigit,
-				label_SpecialChar, label_LongEnough);
+				label_SpecialChar, label_LongEnough, loginButton);
 	}
+
 	//Method for retrieving input of username, password, and inviteCode
 	
 	private TextField getPassword() {
