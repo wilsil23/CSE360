@@ -1,38 +1,38 @@
-package passwordEvaluationTestbed;
+package loginpage;
 
-// JavaFX imports needed to support the Graphical User Interface
+//JavaFX imports needed to support the Graphical User Interface
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /*******
- * <p> PasswordAddressTestbed Class </p>
- * 
- * <p> Description: A JavaFX demonstration application and baseline for a sequence of projects </p>
- * 
- * <p> Copyright: Lynn Robert Carter © 2022 </p>
- * 
- * @author Lynn Robert Carter
- * 
- * @version 4.00	2017-10-16 The mainline of a JavaFX-based GUI implementation of a User 
- * 					Interface testbed
- * @version 5.00	2022-09-22 Updated for use at ASU
- * 
- */
+* <p> PasswordAddressTestbed Class </p>
+* 
+* <p> Description: A JavaFX demonstration application and baseline for a sequence of projects </p>
+* 
+* <p> Copyright: Lynn Robert Carter © 2022 </p>
+* 
+* @author Lynn Robert Carter
+* 
+* @version 4.00	2017-10-16 The mainline of a JavaFX-based GUI implementation of a User 
+* 					Interface testbed
+* @version 5.00	2022-09-22 Updated for use at ASU
+* 
+*/
 
-public class PasswordEvaluationGUITestbed extends Application {
+public class LoginPage extends Application {
 	
 	/** The width of the pop-up window for the user interface */
 	public final static double WINDOW_WIDTH = 500;
 	/** The height of the pop-up window for the user interface */
 	public final static double WINDOW_HEIGHT = 430;
 	
-	/** A temporary object referencing the application's user interface */
-	public UserInterface theGUI;
-	
 	/** The default constructor */
-	public PasswordEvaluationGUITestbed() {
+	public LoginPage() {
 	}
 
 	/**********
@@ -51,7 +51,6 @@ public class PasswordEvaluationGUITestbed extends Application {
 		
 		Pane theRoot = new Pane();							// Create a pane within the window
 		
-		theGUI = new UserInterface(theRoot);				// Create the Graphical User Interface
 		
 		Scene theScene = new Scene(theRoot, WINDOW_WIDTH, WINDOW_HEIGHT);	// Create the scene
 		
@@ -59,6 +58,36 @@ public class PasswordEvaluationGUITestbed extends Application {
 		
 		theStage.show();									// Show the stage to the user
 		
+		Label label_Password = new Label("Enter the password here");
+		Label label_Username = new Label("Enter the username here");
+		Label label_inviteCode = new Label("Enter invite code");
+		TextField text_inviteCode = new TextField();
+		TextField text_Password = new TextField();
+		TextField text_Username = new TextField();
+		
+		
+		label_Password.setLayoutX(180);
+		label_Password.setLayoutY(280);	
+		
+		label_Username.setLayoutX(180);
+		label_Username.setLayoutY(180);	
+		
+		label_inviteCode.setLayoutX(180);
+		label_inviteCode.setLayoutY(80);	
+		
+		text_inviteCode.setLayoutX(180);
+		text_inviteCode.setLayoutY(100);	
+		
+		text_Password.setLayoutX(180);
+		text_Password.setLayoutY(300);	
+		
+		text_Username.setLayoutX(180);
+		text_Username.setLayoutY(200);	
+		
+		
+		
+		theRoot.getChildren().addAll(label_Password, label_Username, label_inviteCode, 
+				text_Username, text_Password, text_inviteCode);
 		
 		// When the stage is shown to the user, the pane within the window is visible.  This means
 		// that the labels, fields, and buttons of the Graphical User Interface (GUI) are visible 
@@ -78,3 +107,4 @@ public class PasswordEvaluationGUITestbed extends Application {
 		launch(args);										// for all JavaFX applications using
 	}														// other IDEs.
 }
+
