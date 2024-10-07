@@ -2,6 +2,7 @@ package loginpage;
 
 //JavaFX imports needed to support the Graphical User Interface
 import javafx.application.Application;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -88,7 +89,6 @@ public class LoginPage extends Application {
 		
 		theRoot.getChildren().addAll(label_Password, label_Username, label_inviteCode, 
 				text_Username, text_Password, text_inviteCode);
-		
 		// When the stage is shown to the user, the pane within the window is visible.  This means
 		// that the labels, fields, and buttons of the Graphical User Interface (GUI) are visible 
 		// and it is now possible for the user to select input fields and enter values into them, 
