@@ -65,7 +65,7 @@ public class LoginPage extends Application {
 		TextField text_inviteCode = new TextField();
 		TextField text_Password = new TextField();
 		TextField text_Username = new TextField();
-		
+		Button button_login = new Button();
 		
 		label_Password.setLayoutX(180);
 		label_Password.setLayoutY(280);	
@@ -85,10 +85,13 @@ public class LoginPage extends Application {
 		text_Username.setLayoutX(180);
 		text_Username.setLayoutY(200);	
 		
+		button_login.setText("login");
+		button_login.setLayoutX(220);
+		button_login.setLayoutY(400);	
 		
 		
 		theRoot.getChildren().addAll(label_Password, label_Username, label_inviteCode, 
-				text_Username, text_Password, text_inviteCode);
+				text_Username, text_Password, text_inviteCode,button_login);
 		// When the stage is shown to the user, the pane within the window is visible.  This means
 		// that the labels, fields, and buttons of the Graphical User Interface (GUI) are visible 
 		// and it is now possible for the user to select input fields and enter values into them, 
