@@ -1,8 +1,10 @@
-package rolepage;
+package createaccountpage;
 // JavaFX imports needed to support the Graphical User Interface
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 /*******
@@ -19,7 +21,7 @@ import javafx.stage.Stage;
  * @version 5.00	2022-09-22 Updated for use at ASU
  * 
  */
-public class RolePage extends Application {
+public class CreateAccountPage extends Application {
 	
 	/** The width of the pop-up window for the user interface */
 	public final static double WINDOW_WIDTH = 500;
@@ -27,7 +29,7 @@ public class RolePage extends Application {
 	public final static double WINDOW_HEIGHT = 430;
 	
 	/** The default constructor */
-	public RolePage() {
+	public CreateAccountPage() {
 	}
 	/**********
 	 * This is the start method that is called once the application has been loaded into memory and
@@ -41,7 +43,7 @@ public class RolePage extends Application {
 	@Override
 	public void start(Stage theStage) throws Exception {
 		
-		theStage.setTitle("rolepage");			// Label the stage (a window)
+		theStage.setTitle("create account page");			// Label the stage (a window)
 		
 		Pane theRoot = new Pane();							// Create a pane within the window
 		
@@ -52,30 +54,30 @@ public class RolePage extends Application {
 		
 		theStage.show();									// Show the stage to the user
 		
-		Button teacherRoleButton = new Button();
 		
-		Button studentRoleButton = new Button();
+		Label label_email = new Label("Enter your email here");
+		Label label_name = new Label("Enter your name here");
 		
-		Button adminRoleButton = new Button();
+		TextField text_email = new TextField();
 		
-		
-		teacherRoleButton.setText("teacher");
-		teacherRoleButton.setLayoutX(200);
-		teacherRoleButton.setLayoutY(300);	
-		teacherRoleButton.setPrefWidth(100);
-		
-		studentRoleButton.setText("student");
-		studentRoleButton.setLayoutX(200);
-		studentRoleButton.setLayoutY(200);	
-		studentRoleButton.setPrefWidth(100);
-		
-		adminRoleButton.setText("admin");
-		adminRoleButton.setLayoutX(200);
-		adminRoleButton.setLayoutY(100);	
-		adminRoleButton.setPrefWidth(100);
+		TextField text_name = new TextField();
 		
 		
-		theRoot.getChildren().addAll(teacherRoleButton, studentRoleButton, adminRoleButton);
+		
+		label_email.setLayoutX(200);
+		label_email.setLayoutY(80);	
+		
+		label_name.setLayoutX(200);
+		label_name.setLayoutY(180);
+		
+		
+		text_email.setLayoutX(200);
+		text_email.setLayoutY(100);	
+
+		text_name.setLayoutX(200);
+		text_name.setLayoutY(200);	
+		
+		theRoot.getChildren().addAll(label_email, label_name, text_email, text_name);
 		
 		// When the stage is shown to the user, the pane within the window is visible.  This means
 		// that the labels, fields, and buttons of the Graphical User Interface (GUI) are visible 
