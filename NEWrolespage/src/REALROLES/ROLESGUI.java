@@ -1,3 +1,4 @@
+package REALROLES;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -15,7 +16,7 @@ import javafx.stage.Stage;
 
 
 
-public class RolesGUI extends Application {
+public class ROLESGUI extends Application {
 	// set up the vars
 	//private Label label_AdminRole = new Label("Admin");
 	//private Label label_InstructorRole = new Label("Instructor");
