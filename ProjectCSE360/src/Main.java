@@ -25,9 +25,8 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		
 		
-		LoginPage loginPage = new LoginPage();
-		
-		primaryStage.setScene(loginPage.getScene());
+		primaryStage.setScene(LoginPage.getScene());
+		primaryStage.setTitle("login page");
 		
 		primaryStage.show();
 		// TODO Auto-generated method stub
