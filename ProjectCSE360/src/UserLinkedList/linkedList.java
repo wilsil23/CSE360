@@ -1,6 +1,6 @@
 package UserLinkedList;
 
-public class linkedlist {
+public class linkedList {
     public UserNode head; // Start of linked list
 
     // Method to add a user to the linked list
