@@ -1,4 +1,5 @@
 package createaccountpage;
+
 // JavaFX imports needed to support the Graphical User Interface
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -7,10 +8,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
 /*******
- * <p> PasswordAddressTestbed Class </p>
+ * <p> CreateAccountPage Class </p>
  * 
- * <p> Description: A JavaFX demonstration application and baseline for a sequence of projects </p>
+ * <p> Description: A simple JavaFX demonstration application for creating an account. </p>
  * 
  * <p> Copyright: Lynn Robert Carter © 2022 </p>
  * 
@@ -23,76 +25,76 @@ import javafx.stage.Stage;
  */
 public class CreateAccountPage extends Application {
 	
-	/** The width of the pop-up window for the user interface */
-	public final static double WINDOW_WIDTH = 500;
-	/** The height of the pop-up window for the user interface */
-	public final static double WINDOW_HEIGHT = 430;
+	// Constants to define the width and height of the window (stage)
+	public final static double WINDOW_WIDTH = 500;  // Width of the application window
+	public final static double WINDOW_HEIGHT = 430; // Height of the application window
 	
-	/** The default constructor */
+	// Default constructor (no custom logic required, but it is a placeholder)
 	public CreateAccountPage() {
 	}
+	
 	/**********
-	 * This is the start method that is called once the application has been loaded into memory and
-	 * is ready to get to work.
+	 * The `start` method is the main entry point for JavaFX applications.
+	 * It is responsible for setting up and displaying the primary user interface elements.
 	 * 
-	 * In designing this application I have elected to IGNORE all opportunities for automatic
-	 * layout support and instead have elected to manually position each GUI element and its 
-	 * properties in order to exercise complete control over the user interface look and feel.
-	 * 
+	 * @param theStage The main window (stage) for this application
 	 */
 	@Override
 	public void start(Stage theStage) throws Exception {
 		
-		theStage.setTitle("create account page");			// Label the stage (a window)
+		// Set the title of the window (stage) that appears in the title bar
+		theStage.setTitle("Create Account Page");	
 		
-		Pane theRoot = new Pane();							// Create a pane within the window
+		// Create a Pane to act as a container for all UI components
+		Pane theRoot = new Pane();
 		
+		// Create a Scene that holds the root pane, with specified dimensions
+		Scene theScene = new Scene(theRoot, WINDOW_WIDTH, WINDOW_HEIGHT);
 		
-		Scene theScene = new Scene(theRoot, WINDOW_WIDTH, WINDOW_HEIGHT);	// Create the scene
+		// Set the Scene on the Stage (so it can be displayed)
+		theStage.setScene(theScene);
 		
-		theStage.setScene(theScene);						// Set the scene on the stage
+		// Show the stage (make it visible)
+		theStage.show();
 		
-		theStage.show();									// Show the stage to the user
+		// Create labels for user input fields (email and name)
+		Label label_email = new Label("Enter your email here"); // Label for email input
+		Label label_name = new Label("Enter your name here");   // Label for name input
 		
+		// Create text fields for user input (email and name)
+		TextField text_email = new TextField();  // Text field for entering the email
+		TextField text_name = new TextField();   // Text field for entering the name
 		
-		Label label_email = new Label("Enter your email here");
-		Label label_name = new Label("Enter your name here");
+		// Set positions for the labels and text fields using manual layout
+		// Email label and text field
+		label_email.setLayoutX(200);  // Set X position of email label
+		label_email.setLayoutY(80);   // Set Y position of email label
 		
-		TextField text_email = new TextField();
+		text_email.setLayoutX(200);   // Set X position of email text field
+		text_email.setLayoutY(100);   // Set Y position of email text field
 		
-		TextField text_name = new TextField();
+		// Name label and text field
+		label_name.setLayoutX(200);   // Set X position of name label
+		label_name.setLayoutY(180);   // Set Y position of name label
 		
+		text_name.setLayoutX(200);    // Set X position of name text fiel
+		text_name.setLayoutY(200);    // Set Y position of name text field
 		
-		
-		label_email.setLayoutX(200);
-		label_email.setLayoutY(80);	
-		
-		label_name.setLayoutX(200);
-		label_name.setLayoutY(180);
-		
-		
-		text_email.setLayoutX(200);
-		text_email.setLayoutY(100);	
-
-		text_name.setLayoutX(200);
-		text_name.setLayoutY(200);	
-		
+		// Add the labels and text fields to the pane so they are visible in the window
 		theRoot.getChildren().addAll(label_email, label_name, text_email, text_name);
 		
-		// When the stage is shown to the user, the pane within the window is visible.  This means
-		// that the labels, fields, and buttons of the Graphical User Interface (GUI) are visible 
-		// and it is now possible for the user to select input fields and enter values into them, 
-		// click on buttons, and read the labels, the results, and the error messages.
+		// At this point, the window will be shown to the user, with the email and name fields
+		// ready for input. The user can enter values, but no functionality has been added yet.
 	}
 	
 	/*********************************************************************************************/
+
 	/**********************************************************************************************
-	 * This is the method that launches the JavaFX application
+	 * This method launches the JavaFX application.
 	 * 
-	 * @param args	The standard argument list for a Java Mainline
-	 * 
+	 * @param args The standard argument list for a Java mainline
 	 */
-	public static void main(String[] args) {				// This method may not be required
-		launch(args);										// for all JavaFX applications using
-	}														// other IDEs.
+	public static void main(String[] args) {				
+		launch(args);  // Launch the application (this starts the JavaFX lifecycle)
+	}
 }
