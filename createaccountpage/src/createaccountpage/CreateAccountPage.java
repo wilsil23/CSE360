@@ -77,7 +77,7 @@ public class CreateAccountPage extends Application {
 		label_name.setLayoutX(200);   // Set X position of name label
 		label_name.setLayoutY(180);   // Set Y position of name label
 		
-		text_name.setLayoutX(200);    // Set X position of name text field
+		text_name.setLayoutX(200);    // Set X position of name text fiel
 		text_name.setLayoutY(200);    // Set Y position of name text field
 		
 		// Add the labels and text fields to the pane so they are visible in the window
