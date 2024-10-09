@@ -1,4 +1,7 @@
 package adminPage;
+import java.util.Random;
+
+
 import javafx.scene.control.ButtonType;
 
 
@@ -15,12 +18,56 @@ import javafx.stage.Stage;
 import java.util.Optional;
 
 public class adminPage extends Application {
+	
+    private final Random random = new Random(); // Random instance for code generation
+
 
     // Create an instance of linkedlist to store and manage users
     linkedlist userList = new linkedlist();
 
     public static void main(String[] args) {
         launch(args);
+    }
+    private String generateRandomCode() {
+        // Generate a random alphanumeric string
+        int length = 8; // Specify the length of the code
+        StringBuilder code = new StringBuilder(length);
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"; // Alphanumeric characters
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(characters.length());
+            code.append(characters.charAt(index));
+        }
+        return code.toString();
+    }
+
+    // Method to create invitation code
+    public void createInvitationCode() {
+        TextInputDialog roleDialog = new TextInputDialog();
+        roleDialog.setTitle("Generate Invitation Code");
+        roleDialog.setHeaderText("Enter Role");
+        roleDialog.setContentText("Role (e.g., Student, Teacher):");
+
+        Optional<String> role = roleDialog.showAndWait();
+
+        if (role.isPresent() && !role.get().isEmpty()) {
+            // Generate an invitation code
+            String invitationCode = generateRandomCode();
+
+            // Show confirmation alert with the invitation code and role
+            showAlert("Success", "Invitation Code Generated", 
+                      "Invitation Code: " + invitationCode + "\nRole: " + role.get());
+        } else {
+            showAlert("Error", "No Role Provided", "Please enter a valid role.");
+        }
+    }
+
+    // Method to show alerts
+    private void showAlerts(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     // Method to prompt and add a user to the linked list
@@ -64,6 +111,11 @@ public class adminPage extends Application {
                         roleDialog.setContentText("Role:");
 
                         Optional<String> role = roleDialog.showAndWait();
+                        
+                        if (userList.findUserByUsername(username.get()) != null) {
+                            showAlert("Error", "Duplicate Username", "A user with the username '" + username.get() + "' already exists.");
+                            return; // Exit the method to prevent adding the user
+                        }
 
                         if (role.isPresent() && !role.get().isEmpty()) {
                             // Add user to the list with the specified role
@@ -218,6 +270,8 @@ public class adminPage extends Application {
         Button btnListUsers = new Button("List Users");
         Button btnUpdateUser = new Button("Update User");
         Button btnLogout = new Button("Logout");
+        Button btnGenerateCode = new Button("Generate Invitation Code");
+
         
         
         
@@ -268,10 +322,12 @@ public class adminPage extends Application {
             // Placeholder for logout functionality
             System.out.println("Logout button clicked (functionality not implemented).");
         });
+        btnGenerateCode.setOnAction(e -> createInvitationCode()); // Call createInvitationCode when clicked
+
 
         // Layout for arranging buttons vertically
         VBox vbox = new VBox(20); // 20px spacing between buttons
-        vbox.getChildren().addAll(btnAddUser, btnDeleteUser, btnListUsers, btnUpdateUser, btnLogout);
+        vbox.getChildren().addAll(btnAddUser, btnDeleteUser, btnListUsers, btnUpdateUser, btnLogout, btnGenerateCode);
 
         // Set the scene with the layout and show the stage
         primaryStage.setScene(new Scene(vbox, 500, 500));
