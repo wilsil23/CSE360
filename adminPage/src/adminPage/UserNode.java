@@ -1,5 +1,16 @@
 package adminPage;
 
+/*******
+* <p> UserNode Class </p>
+* 
+* <p> Description: A Java file consisting of the construction of nodes used for a linked list </p>
+* 
+* <p> Copyright: Carson Williams, Ivan Bustamante Campana © 2024 </p>
+* 
+* @author Carson Williams, Ivan Bustamante Campana
+* 
+*/
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

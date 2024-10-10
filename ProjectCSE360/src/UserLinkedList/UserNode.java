@@ -3,11 +3,21 @@ package UserLinkedList;
 import java.util.ArrayList;
 import java.util.List;
 
+/*******
+* <p> UserNode Class </p>
+* 
+* <p> Description: A Java file consisting of the construction of nodes used for a linked list </p>
+* 
+* <p> Copyright: Carson Williams, Ivan Bustamante Campana © 2024 </p>
+* 
+* @author Carson Williams, Ivan Bustamante Campana
+* 
+*/
 public class UserNode {
-    public String email;
-    public String username;
-    public String password;
-    public String name;
+    public String email;	// User email
+    public String username;		// User username
+    public String password;		// User password
+    public String name;		// Name of user
     public List<String> roles; // List to hold user roles
     public UserNode next; // Reference to the next user node
 
