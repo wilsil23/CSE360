@@ -1,4 +1,17 @@
 package adminPage;
+/***
+<p> adminPage Class </p>
+<p> Description: The AdminPage class provides the interface for administrators to manage user accounts and system settings within the application.
+ This page includes various functionalities like inviting new users, resetting accounts, listing existing users, and assigning or removing roles.
+It serves as the central hub for administrative tasks, allowing admins to maintain user permissions, delete accounts, and manage system access. 
+The graphical user interface (GUI) is built using JavaFX, providing an intuitive and user-friendly experience for system administrators.</p>
+
+<p> Copyright: Ivan Bustamante Campana © 2024 </p>
+@author Ivan Bustamante Campana
+@version 4.00    2017-10-16 The mainline of a JavaFX-based GUI implementation of a User
+Interface testbed
+@version 5.00    2022-09-22 Updated for use at ASU
+*/
 
 
 import java.time.LocalDateTime;

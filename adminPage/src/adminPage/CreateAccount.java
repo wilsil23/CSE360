@@ -1,4 +1,18 @@
 package adminPage;
+/*******
+ * <p> CreateAccountPage Class </p>
+ * 
+ * <p> Description: A simple JavaFX demonstration application for creating an account. </p>
+ * 
+ * <p> Copyright: William Diamond © 2024 © 2022 </p>
+ * 
+ * @author William Diamond © 2024
+ * 
+ * @version 4.00	2017-10-16 The mainline of a JavaFX-based GUI implementation of a User 
+ * 					Interface testbed
+ * @version 5.00	2022-09-22 Updated for use at ASU
+ * 
+ */
 
 // JavaFX imports needed to support the Graphical User Interface
 import javafx.application.Application;

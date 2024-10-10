@@ -1,5 +1,22 @@
 package adminPage;
 
+
+/*******
+* <p> LoginPage Class </p> 
+* 
+* <p> Description: A JavaFX demonstration application and baseline for a sequence of projects </p>
+* 
+* <p> Copyright: William Diamond © 2024 </p>
+* 
+* @author William Diamond
+* 
+* @version 4.00	2017-10-16 The mainline of a JavaFX-based GUI implementation of a User 
+* 					Interface testbed
+* @version 5.00	2022-09-22 Updated for use at ASU
+* 
+*/
+
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
