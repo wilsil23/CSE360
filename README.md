@@ -1,0 +1,1 @@
+All of our collective files are inside the src file of the admin page folder! The ASUHelloWorldJavaFX is simply for importing the correct libraries to get our code up and running we didn't change it at all!
