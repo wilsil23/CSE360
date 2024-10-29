@@ -194,7 +194,7 @@ public class adminPage extends Application {
     }
 
     // Method to add an article
-    private static void addArticle() {
+    public void addArticle() {
         try {
         	
         	 // Dialog for diffculty
@@ -291,7 +291,7 @@ public class adminPage extends Application {
         }
     }
  // Method to generate a random invitation code
-    private String generateRandomCode() {
+    public String generateRandomCode() {
         // Generate a random alphanumeric string
         int length = 8; // Specify the length of the code
         StringBuilder code = new StringBuilder(length);
@@ -334,7 +334,7 @@ public class adminPage extends Application {
     }
 
     // Method to show alerts
-    private static void showAlert1(String title, String header, String content) {
+    public void showAlert1(String title, String header, String content) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(header);
@@ -550,7 +550,7 @@ public class adminPage extends Application {
     // Method to list all articles
  // Method to list all articles
  // Method to list all articles
-    private static void listArticles() {
+    public void listArticles() {
         try {
             // Create a ByteArrayOutputStream to capture output
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -740,7 +740,7 @@ public class adminPage extends Application {
     }
 
     // Helper method to show alert messages
-    private static void showAlert(String title, String header, String content) {
+    public void showAlert(String title, String header, String content) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(header);
