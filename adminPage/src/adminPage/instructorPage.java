@@ -25,6 +25,15 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/***
+<p> instructorPage class </p>
+<p> Description: This class manages database connections and operations,
+    including creating tables, adding, retrieving, and deleting articles, while also handling encryption and database credentials. </p>
+<p> Copyright: William Diamond, Carson Williams © 2024 </p>
+@author William Diamond, Carson Williams
+@version 5.00    2024-10-20 Updated for use at ASU
+*/
+
 public class instructorPage extends Application {
 	linkedlist userList = new linkedlist();
     ROLESGUI instructorPage = new ROLESGUI();
