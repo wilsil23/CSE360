@@ -27,8 +27,8 @@ import javafx.stage.Stage;
 
 /***
 <p> instructorPage class </p>
-<p> Description: This class manages database connections and operations,
-    including creating tables, adding, retrieving, and deleting articles, while also handling encryption and database credentials. </p>
+<p> Description: This acts as a GUI for the instructor homepage,
+    including adding, retrieving, and deleting articles. </p>
 <p> Copyright: William Diamond, Carson Williams © 2024 </p>
 @author William Diamond, Carson Williams
 @version 5.00    2024-10-20 Updated for use at ASU
