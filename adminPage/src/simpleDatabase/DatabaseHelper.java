@@ -13,7 +13,7 @@ import java.util.List;
 <p> Database class </p>
 <p> Description: This class manages database connections and operations,
     including creating tables, adding, retrieving, and deleting articles, while also handling encryption and database credentials. </p>
-<p> Copyright: Ivan Bustamante © 2024 </p>
+<p> Copyright: Ivan Bustamante, Carson Williams © 2024 </p>
 @author Ivan Bustamante Campana
 @version 5.00    2024-10-20 Updated for use at ASU
 */
