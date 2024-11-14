@@ -69,12 +69,12 @@ public class EncryptionHelper {
 	 * Takes plaintext as a string and returns an the encrypted string to make usability simpler 
 	 * 
 	 */
-	public String encypt_str(String plainText, String iv) throws Exception{
+	public String encryptStr(String plainText, String iv) throws Exception{
 		byte[] encrypted_bytes = encrypt(plainText.getBytes(), getInitializationVector(iv.toCharArray()));
 		String result = Base64.getEncoder().encodeToString(encrypted_bytes);
 		return result;
 	}
-	public String decrypt_str(String cipherText, String iv) throws Exception{
+	public String decryptStr(String cipherText, String iv) throws Exception{
 		byte[] plaintext_bytes = decrypt(
 				Base64.getDecoder().decode(cipherText), 
 				getInitializationVector(iv.toCharArray())
