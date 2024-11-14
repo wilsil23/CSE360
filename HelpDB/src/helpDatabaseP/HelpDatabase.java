@@ -194,7 +194,6 @@ class HelpDatabase {
 
 		while(rs.next()) { 
 			// Retrieve by column name 
-			int id  = rs.getInt("id"); 
 			String title = rs.getString("title");
 			//Required decryption
 			String encryptedBody = rs.getString("body");
