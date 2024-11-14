@@ -27,7 +27,7 @@ import javafx.stage.Stage;
 
 public class adminPage extends Application {
     linkedlist userList = new linkedlist();
-    private final Random random = new Random(); // Random instance for code generation
+    private final Random random = new Random(); // Random instance for code generation.
     ROLESGUI adminpage = new ROLESGUI();
     
     @Override
