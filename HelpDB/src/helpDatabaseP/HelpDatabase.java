@@ -72,7 +72,11 @@ class HelpDatabase {
 		String helpLib = "CREATE TABLE IF NOT EXISTS helpLibrary ("
 				+ "id INT AUTO_INCREMENT PRIMARY KEY, "
 				+ "title VARCHAR(255) UNIQUE, "
-				+ "body VARCHAR(255))";
+				+ "author VARCHAR(255), "
+				+ "ab VARCHAR(255), "
+				+ "body VARCHAR(255), "
+				+ "keywords VARCHAR(255), "
+				+ "references VARCHAR(255))";
 		statement.execute(helpLib);
 	}
 	
@@ -95,17 +99,37 @@ class HelpDatabase {
 	 * @param body The body of the article being added
 	 * 
 	 */
-	public void registerArticle(String title, String body) throws Exception {
+	public void registerArticle(String title, String author, String ab, String body, String keywords, String references) throws Exception {
+		// Requires encryption
+		String encryptedAuthor = Base64.getEncoder().encodeToString(
+				encryptionHelper.encrypt(author.getBytes(), EncryptionUtils.getInitializationVector(title.toCharArray()))
+		);
+		// Requires encryption
+		String encryptedAbstract = Base64.getEncoder().encodeToString(
+				encryptionHelper.encrypt(ab.getBytes(), EncryptionUtils.getInitializationVector(title.toCharArray()))
+		);
 		// Requires encryption
 		String encryptedBody = Base64.getEncoder().encodeToString(
 				encryptionHelper.encrypt(body.getBytes(), EncryptionUtils.getInitializationVector(title.toCharArray()))
 		);
+		// Requires encryption
+		String encryptedKeywords = Base64.getEncoder().encodeToString(
+				encryptionHelper.encrypt(keywords.getBytes(), EncryptionUtils.getInitializationVector(title.toCharArray()))
+		);
+		// Requires encryption
+		String encryptedReferences = Base64.getEncoder().encodeToString(
+				encryptionHelper.encrypt(references.getBytes(), EncryptionUtils.getInitializationVector(title.toCharArray()))
+		);
 		
 		// Inserts the article into the database
-		String insertArticle = "INSERT INTO helpLibrary (title, body) VALUES (?, ?)";
+		String insertArticle = "INSERT INTO helpLibrary (title, author, ab, body, keywords, references) VALUES (?, ?, ?, ?, ?, ?)";
 		try (PreparedStatement pstmt = connection.prepareStatement(insertArticle)) {
 			pstmt.setString(1, title);
-			pstmt.setString(2, encryptedBody);
+			pstmt.setString(2, encryptedAuthor);
+			pstmt.setString(3, encryptedAbstract);
+			pstmt.setString(4, encryptedBody);
+			pstmt.setString(5, encryptedKeywords);
+			pstmt.setString(6, encryptedReferences);
 			pstmt.executeUpdate();
 		}
 	}
@@ -121,8 +145,58 @@ class HelpDatabase {
 		while(rs.next()) { 
 			// Retrieve by column name 
 			int id  = rs.getInt("id"); 
-			String title = rs.getString("title");
+			String title = rs.getString("title");	// Doesn't need decryption
 			// Requires decryption
+			String encryptedAuthor = rs.getString("author");
+			char[] decryptedAuthor = EncryptionUtils.toCharArray(
+					encryptionHelper.decrypt(
+							Base64.getDecoder().decode(
+									encryptedAuthor
+							), 
+							EncryptionUtils.getInitializationVector(title.toCharArray())
+					)	
+			);
+			// Requires decryption
+			String encryptedAbstract = rs.getString("ab");
+			char[] decryptedAbstract = EncryptionUtils.toCharArray(
+					encryptionHelper.decrypt(
+							Base64.getDecoder().decode(
+									encryptedAbstract
+							), 
+							EncryptionUtils.getInitializationVector(title.toCharArray())
+					)	
+			);
+
+			// Displays the article values in terminal
+			System.out.println("ID: " + id);
+			System.out.println("Title: " + title);
+			System.out.print("Author: "); 
+			EncryptionUtils.printCharArray(decryptedAuthor);
+			System.out.println();
+			System.out.print("Abstract: "); 
+			EncryptionUtils.printCharArray(decryptedAbstract);
+			System.out.println();
+			System.out.println();
+			
+			// Fills unneeded attributes
+			Arrays.fill(decryptedAuthor, '0');
+			Arrays.fill(decryptedAbstract, '0');
+		} 
+	}
+	
+	/**********
+	 * This method effectively views the body of an article
+	 */
+	public void viewArticleBody() throws Exception{
+		String sql = "SELECT * FROM helpLibrary"; 
+		Statement stmt = connection.createStatement();
+		ResultSet rs = stmt.executeQuery(sql); 
+
+		while(rs.next()) { 
+			// Retrieve by column name 
+			int id  = rs.getInt("id"); 
+			String title = rs.getString("title");
+			//Required decryption
 			String encryptedBody = rs.getString("body");
 			char[] decryptedBody = EncryptionUtils.toCharArray(
 					encryptionHelper.decrypt(
@@ -132,19 +206,47 @@ class HelpDatabase {
 							EncryptionUtils.getInitializationVector(title.toCharArray())
 					)	
 			);
-
-			// Displays the article values in terminal
-			System.out.println("ID: " + id);
-			System.out.println("Title: " + title);
-			System.out.print("Body: ");
+			
+			//Display the Body
 			EncryptionUtils.printCharArray(decryptedBody);
 			System.out.println();
 			System.out.println();
 			
-			// Fills unneeded attributes
 			Arrays.fill(decryptedBody, '0');
-		} 
+		}
 	}
+	
+	/**********
+	 * This method effectively deletes an article
+	 */
+	public void deleteArticle(int idNum) throws Exception {
+	    String del = "DELETE FROM helpLibrary WHERE id = ?";
+	    try (PreparedStatement pstmt = connection.prepareStatement(del)) {
+	        
+	        pstmt.setInt(1, idNum);
+	        pstmt.executeUpdate();
+	    }
+	}
+	
+	/**********
+	 * This method creates a backup of the database
+	 */
+	public void backupArticles(String fileName) throws SQLException {
+        String sql = "SCRIPT DROP TO '" + fileName + "'";
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute(sql);
+        }
+    }
+	
+	/**********
+	 * This method restores the database
+	 */
+	public void restoreArticles(String fileName) throws SQLException {
+        String sql = "RUNSCRIPT FROM '" + fileName + "'";
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute(sql);
+        }
+    }
 	
 	/**********
 	 * This method closes connection to the database
