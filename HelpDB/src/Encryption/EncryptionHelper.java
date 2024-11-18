@@ -1,11 +1,6 @@
 package Encryption;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
 import java.security.Security;
-import java.util.Arrays;
-import java.util.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -41,46 +36,15 @@ public class EncryptionHelper {
 		cipher = Cipher.getInstance("AES/CBC/PKCS5Padding", BOUNCY_CASTLE_PROVIDER_IDENTIFIER);		
 	}
 	
-	private byte[] encrypt(byte[] plainText, byte[] initializationVector) throws Exception {
+	public byte[] encrypt(byte[] plainText, byte[] initializationVector) throws Exception {
 		cipher.init(Cipher.ENCRYPT_MODE, key, new IvParameterSpec(initializationVector));
 		return cipher.doFinal(plainText);
 	}
 	
-	private byte[] decrypt(byte[] cipherText, byte[] initializationVector) throws Exception {
+	public byte[] decrypt(byte[] cipherText, byte[] initializationVector) throws Exception {
 		cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(initializationVector));
 		return cipher.doFinal(cipherText);
 	}
-	public static byte[] getInitializationVector(char[] text) {
-		char iv[] = new char[IV_SIZE];
-		
-		int textPointer = 0;
-		int ivPointer = 0;
-		while(ivPointer < IV_SIZE) {
-			iv[ivPointer++] = text[textPointer++ % text.length];
-		}
-		
-		return toByteArray(iv);
-	}
-	public static char[] toCharArray(byte[] bytes) {		
-        CharBuffer charBuffer = Charset.defaultCharset().decode(ByteBuffer.wrap(bytes));
-        return Arrays.copyOf(charBuffer.array(), charBuffer.limit());
-	}
-	/**
-	 * Takes plaintext as a string and returns an the encrypted string to make usability simpler 
-	 * 
-	 */
-	public String encryptStr(String plainText, String iv) throws Exception{
-		byte[] encrypted_bytes = encrypt(plainText.getBytes(), getInitializationVector(iv.toCharArray()));
-		String result = Base64.getEncoder().encodeToString(encrypted_bytes);
-		return result;
-	}
-	public String decryptStr(String cipherText, String iv) throws Exception{
-		byte[] plaintext_bytes = decrypt(
-				Base64.getDecoder().decode(cipherText), 
-				getInitializationVector(iv.toCharArray())
-		);
-		String plaintext_string = new String(toCharArray(plaintext_bytes));
-		return plaintext_string;
-	}
 	
 }
+

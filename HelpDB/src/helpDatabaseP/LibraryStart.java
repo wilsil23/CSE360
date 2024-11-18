@@ -37,10 +37,8 @@ public class LibraryStart {
 		try { 
 			
 			databaseHelper.connectToDatabase();  // Connect to the database
-			
-			// Checks if the database is empty, if so add an article
 			if(databaseHelper.isDatabaseEmpty() == true) {
-				databaseHelper.registerArticle("Trouble Finding Articles", "To find articles, begin by selecting which level of article you prefer. Finally, select the option to list all articles.");	// Test to add when empty so there is always an article
+				databaseHelper.registerArticle("Hello", "Help", "lalalala", "This is a test", "Test", "N/A");
 			}
 			
 			System.out.println( "If you wish to list all articles then select L\nEnter your choice:  " );
@@ -50,8 +48,13 @@ public class LibraryStart {
 			case "L":
 				listFlow();		// Automatically lists the articles
 				break;
+			case "V":
+				viewFlow();
+				break;
+			case "S":
+				searchFlow();
 			default:
-				System.out.println("Invalid choice. Please select 'l'");
+				System.out.println("Invalid choice. Please select 'l', 'v', 's'");
 				databaseHelper.closeConnection();	// Close connection if invalid choice
 			}
 
@@ -72,4 +75,16 @@ public class LibraryStart {
 		databaseHelper.displayArticles();	// Method call to delete article
 	}
 
+	private static void viewFlow() throws Exception {
+		System.out.print("Enter ID#: ");
+		String id = scanner.nextLine();
+		int numId = Integer.parseInt(id);
+		databaseHelper.viewArticleBody(numId);
+	}
+	
+	private static void searchFlow() throws Exception {
+		System.out.print("Enter keywords of article: ");
+		String keywords = scanner.nextLine();	// Takes user input for title
+		databaseHelper.keywordSearch(keywords);
+	}
 }

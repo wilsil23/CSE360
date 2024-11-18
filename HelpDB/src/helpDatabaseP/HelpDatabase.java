@@ -82,8 +82,9 @@ class HelpDatabase {
 	
 	/**********
 	 * This method checks if the database is empty
+	 * @throws Exception 
 	 */
-	public boolean isDatabaseEmpty() throws SQLException {
+	public boolean isDatabaseEmpty() throws Exception {
 		String query = "SELECT COUNT(*) AS count FROM helpLibrary";
 		ResultSet resultSet = statement.executeQuery(query);
 		if (resultSet.next()) {
@@ -113,10 +114,6 @@ class HelpDatabase {
 				encryptionHelper.encrypt(body.getBytes(), EncryptionUtils.getInitializationVector(title.toCharArray()))
 		);
 		// Requires encryption
-		String encryptedKeywords = Base64.getEncoder().encodeToString(
-				encryptionHelper.encrypt(keywords.getBytes(), EncryptionUtils.getInitializationVector(title.toCharArray()))
-		);
-		// Requires encryption
 		String encryptedReferences = Base64.getEncoder().encodeToString(
 				encryptionHelper.encrypt(references.getBytes(), EncryptionUtils.getInitializationVector(title.toCharArray()))
 		);
@@ -128,7 +125,7 @@ class HelpDatabase {
 			pstmt.setString(2, encryptedAuthor);
 			pstmt.setString(3, encryptedAbstract);
 			pstmt.setString(4, encryptedBody);
-			pstmt.setString(5, encryptedKeywords);
+			pstmt.setString(5, keywords);
 			pstmt.setString(6, encryptedReferences);
 			pstmt.executeUpdate();
 		}
@@ -185,33 +182,31 @@ class HelpDatabase {
 	}
 	
 	/**********
-	 * This method effectively views the body of an article
+	 * This method effectively views the body of an article (NOT DONE)
 	 */
-	public void viewArticleBody() throws Exception{
-		String sql = "SELECT * FROM helpLibrary"; 
-		Statement stmt = connection.createStatement();
-		ResultSet rs = stmt.executeQuery(sql); 
-
-		while(rs.next()) { 
-			// Retrieve by column name 
-			String title = rs.getString("title");
-			//Required decryption
-			String encryptedBody = rs.getString("body");
-			char[] decryptedBody = EncryptionUtils.toCharArray(
-					encryptionHelper.decrypt(
-							Base64.getDecoder().decode(
-									encryptedBody
-							), 
-							EncryptionUtils.getInitializationVector(title.toCharArray())
-					)	
-			);
-			
-			//Display the Body
-			EncryptionUtils.printCharArray(decryptedBody);
-			System.out.println();
-			System.out.println();
-			
-			Arrays.fill(decryptedBody, '0');
+	public void viewArticleBody(int userInput) throws Exception{
+		String sql = "SELECT * FROM helpLibrary WHERE id=?"; 
+		try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            // Add '%' around the user input for partial matching
+            preparedStatement.setInt(1, userInput);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+            	String title = rs.getString("title");	// Doesn't need decryption
+            	String encryptedBody = rs.getString("body");
+    			char[] decryptedBody = EncryptionUtils.toCharArray(
+    					encryptionHelper.decrypt(
+    							Base64.getDecoder().decode(
+    									encryptedBody
+    							), 
+    							EncryptionUtils.getInitializationVector(title.toCharArray())
+    					)	
+    			);
+    			System.out.println("Title: " + title);
+    			System.out.print("Body: "); 
+    			EncryptionUtils.printCharArray(decryptedBody);
+    			System.out.println();
+    			Arrays.fill(decryptedBody, '0');
+            }
 		}
 	}
 	
@@ -246,6 +241,58 @@ class HelpDatabase {
             stmt.execute(sql);
         }
     }
+	
+	/**********
+	 * This method searches the database by Title
+	 * @throws Exception 
+	 */
+	public void keywordSearch(String input) throws Exception {
+		String selected = "SELECT * FROM helpLibrary WHERE keywords LIKE ?";
+		try (PreparedStatement preparedStatement = connection.prepareStatement(selected)) {
+            // Add '%' around the user input for partial matching
+            preparedStatement.setString(1, "%" + input + "%");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+            	int id  = rs.getInt("id"); 
+    			String title = rs.getString("title");	// Doesn't need decryption
+    			// Requires decryption
+    			String encryptedAuthor = rs.getString("author");
+    			char[] decryptedAuthor = EncryptionUtils.toCharArray(
+    					encryptionHelper.decrypt(
+    							Base64.getDecoder().decode(
+    									encryptedAuthor
+    							), 
+    							EncryptionUtils.getInitializationVector(title.toCharArray())
+    					)	
+    			);
+    			// Requires decryption
+    			String encryptedAbstract = rs.getString("ab");
+    			char[] decryptedAbstract = EncryptionUtils.toCharArray(
+    					encryptionHelper.decrypt(
+    							Base64.getDecoder().decode(
+    									encryptedAbstract
+    							), 
+    							EncryptionUtils.getInitializationVector(title.toCharArray())
+    					)	
+    			);
+
+    			// Displays the article values in terminal
+    			System.out.println("ID: " + id);
+    			System.out.println("Title: " + title);
+    			System.out.print("Author: "); 
+    			EncryptionUtils.printCharArray(decryptedAuthor);
+    			System.out.println();
+    			System.out.print("Abstract: "); 
+    			EncryptionUtils.printCharArray(decryptedAbstract);
+    			System.out.println();
+    			System.out.println();
+    			
+    			// Fills unneeded attributes
+    			Arrays.fill(decryptedAuthor, '0');
+    			Arrays.fill(decryptedAbstract, '0');
+    		}
+		}
+	}
 	
 	/**********
 	 * This method closes connection to the database
