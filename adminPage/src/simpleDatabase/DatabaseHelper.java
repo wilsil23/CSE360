@@ -175,6 +175,58 @@ class DatabaseHelper {
         }
     }
 
+	/**********
+	 * This method searches the database by Title
+	 * @throws Exception 
+	 */
+	public void keywordSearch(String input) throws Exception {
+		String selected = "SELECT * FROM articles WHERE title LIKE ?";
+		try (PreparedStatement preparedStatement = connection.prepareStatement(selected)) {
+            // Add '%' around the user input for partial matching
+            preparedStatement.setString(1, "%" + input + "%");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+            	int id  = rs.getInt("id"); 
+    			String title = rs.getString("title");	// Doesn't need decryption
+    			// Requires decryption
+    			String encryptedAuthor = rs.getString("author");
+    			char[] decryptedAuthor = EncryptionUtils.toCharArray(
+    					encryptionHelper.decrypt(
+    							Base64.getDecoder().decode(
+    									encryptedAuthor
+    							), 
+    							EncryptionUtils.getInitializationVector(title.toCharArray())
+    					)	
+    			);
+    			// Requires decryption
+    			String encryptedAbstract = rs.getString("ab");
+    			char[] decryptedAbstract = EncryptionUtils.toCharArray(
+    					encryptionHelper.decrypt(
+    							Base64.getDecoder().decode(
+    									encryptedAbstract
+    							), 
+    							EncryptionUtils.getInitializationVector(title.toCharArray())
+    					)	
+    			);
+
+    			// Displays the article values in terminal
+    			System.out.println("ID: " + id);
+    			System.out.println("Title: " + title);
+    			System.out.print("Author: "); 
+    			EncryptionUtils.printCharArray(decryptedAuthor);
+    			System.out.println();
+    			System.out.print("Abstract: "); 
+    			EncryptionUtils.printCharArray(decryptedAbstract);
+    			System.out.println();
+    			System.out.println();
+    			
+    			// Fills unneeded attributes
+    			Arrays.fill(decryptedAuthor, '0');
+    			Arrays.fill(decryptedAbstract, '0');
+    		}
+		}
+	}
+    
     // Method to close the database connection
     public void closeConnection() {
         try { 

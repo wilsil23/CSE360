@@ -247,7 +247,7 @@ class HelpDatabase {
 	 * @throws Exception 
 	 */
 	public void keywordSearch(String input) throws Exception {
-		String selected = "SELECT * FROM helpLibrary WHERE keywords LIKE ?";
+		String selected = "SELECT * FROM helpLibrary WHERE title LIKE ?";
 		try (PreparedStatement preparedStatement = connection.prepareStatement(selected)) {
             // Add '%' around the user input for partial matching
             preparedStatement.setString(1, "%" + input + "%");

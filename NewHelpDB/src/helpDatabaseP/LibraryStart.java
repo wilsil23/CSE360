@@ -83,7 +83,7 @@ public class LibraryStart {
 	}
 	
 	private static void searchFlow() throws Exception {
-		System.out.print("Enter keywords of article: ");
+		System.out.print("Enter title of article: ");
 		String keywords = scanner.nextLine();	// Takes user input for title
 		databaseHelper.keywordSearch(keywords);
 	}
