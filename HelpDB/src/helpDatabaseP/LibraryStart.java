@@ -38,10 +38,10 @@ public class LibraryStart {
 			
 			databaseHelper.connectToDatabase();  // Connect to the database
 			if(databaseHelper.isDatabaseEmpty() == true) {
-				databaseHelper.registerArticle("Hello", "Help", "lalalala", "This is a test", "Test", "N/A");
+				databaseHelper.registerArticle("Hello", "Help", "lalalala", "This is a test", "Help, Test", "N/A");
 			}
 			
-			System.out.println( "If you wish to list all articles then select L\nEnter your choice:  " );
+			System.out.println( "If you wish to list all articles then select L\nIf you wih to view an article then select V\nIf you wish to search then select S\nEnter your choice:  " );
 			String role = scanner.nextLine();
 
 			switch (role) {
