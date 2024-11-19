@@ -31,12 +31,12 @@ public class adminPage extends Application {
     linkedlist userList = new linkedlist();
     private final Random random = new Random(); // Random instance for code generation.
     ROLESGUI adminpage = new ROLESGUI();
+    String group_name = "";
     
     @Override
     public void start(Stage primaryStage) {
         
         primaryStage.setTitle("Admin Page");
-
         // Buttons for the various article functions
         Button addArticleButton = new Button("Add Article");
         Button deleteArticleButton = new Button("Delete Article");
@@ -49,12 +49,12 @@ public class adminPage extends Application {
         Button Generatecode = new Button("Generate Code");
         Button DeleteUser = new Button("Delete Users");
         Button UpdateUser = new Button("Update Role");
-        Button createRightsForGroup new Button("Create Access Rights of Special Group");
-        Button editRightsForGroup new Button("Edit Access Rights of Special Group");
-        Button deleteRightsForGroup new Button("Delete Access Rights of Special Group");
-        Button assignSpecialGroupMembers Button("Assign Special Group Members");
-        Button addSpecialGroupMember new Button("Add Special Group Members");
-        Button deleteSpecialGroupMember new Button("Delete Special Group Members"); 
+        Button createRightsForGroup = new Button("Create Access Rights of Special Group");
+        Button editRightsForGroup = new Button("Edit Access Rights of Special Group");
+        Button deleteRightsForGroup = new Button("Delete Access Rights of Special Group");
+        Button assignSpecialGroupMembers = new Button("Assign Special Group Members");
+        Button addSpecialGroupMember = new Button("Add Special Group Members");
+        Button deleteSpecialGroupMember = new Button("Delete Special Group Members"); 
         
         AddUser.setOnAction(e -> addUser()); // Call addUser when clicked
 
@@ -173,12 +173,55 @@ public class adminPage extends Application {
      });
      
      //Special group actions
-     createRightsForGroup.setOnAction(e -> (CreateRightsForGroup));
-     editRightsForGroup.setOnAction(e -> (EditRightsForGroup));
-     deleteRightsForGroup.setOnAction(e -> (DeleteRightsForGroup));
-     assignSpecialGroupMembers.setOnAction(e -> (AssignSpecialGroupMembers));
-     addSpecialGroupMember.setOnAction(e -> (AddSpecialGroupMember));
-     deleteSpecialGroupMember.setOnAction(e -> (DeleteSpecialGroupMember));
+     restoreArticlesButton.setOnAction(e -> {
+         try {
+         	adminpage.restoreArticles();
+         } catch (Exception ex) {
+         	adminpage.showAlert1("Error", "Failed to Restore Articles", ex.getMessage());
+         }
+     });
+     createRightsForGroup.setOnAction(e -> {
+         try {
+         	CreateRightsForGroup();
+         } catch (Exception ex) {
+         	adminpage.showAlert1("Error", "Failed to Restore Articles", ex.getMessage());
+         }
+     });
+     editRightsForGroup.setOnAction(e -> {
+         try {
+         	EditRightsForGroup();
+         } catch (Exception ex) {
+         	adminpage.showAlert1("Error", "Failed to Restore Articles", ex.getMessage());
+         }
+     });
+     deleteRightsForGroup.setOnAction(e -> {
+         try {
+         	DeleteRightsForGroup();
+         } catch (Exception ex) {
+         	adminpage.showAlert1("Error", "Failed to Restore Articles", ex.getMessage());
+         }
+     });
+     assignSpecialGroupMembers.setOnAction(e -> {
+         try {
+         	AssignSpecialGroupMembers();
+         } catch (Exception ex) {
+         	adminpage.showAlert1("Error", "Failed to Restore Articles", ex.getMessage());
+         }
+     });
+     addSpecialGroupMember.setOnAction(e -> {
+         try {
+         	AddSpecialGroupMember();
+         } catch (Exception ex) {
+         	adminpage.showAlert1("Error", "Failed to Restore Articles", ex.getMessage());
+         }
+     });
+     deleteSpecialGroupMember.setOnAction(e -> {
+         try {
+         	DeleteSpecialGroupMember();
+         } catch (Exception ex) {
+         	adminpage.showAlert1("Error", "Failed to Restore Articles", ex.getMessage());
+         }
+     });
      
 
         // Layout setup
@@ -413,19 +456,19 @@ public class adminPage extends Application {
     }
     
     //TEMPORARY FUNCTION TO FLAG PARTS I DIDNT FINISH, SO YOU DON'T HAVE TO LOOK THROUGH ALL THE COMMENTS AND JUST LOOK FOR THIS
-    private void HELP_FLAG_FUNCTION_TYPETHING_IM_TRYING_TO_MAKE_THIS_CATCH_UR_EYE() {
-    	return "THIS SHOULD GIVE AN ERROR PROBABLY";
-    }
+    //private String HELP_FLAG_FUNCTION_TYPETHING_IM_TRYING_TO_MAKE_THIS_CATCH_UR_EYE() {
+    	//return "THIS SHOULD GIVE AN ERROR PROBABLY";
+    //}
     
     //Special Group Helper Methods
-    private void shortAlert(alert_text) {
+    private void shortAlert(String alert_text) {
     	 Alert alert = new Alert(Alert.AlertType.INFORMATION);
          alert.setTitle(alert_text);
          alert.setHeaderText(alert_text);
          alert.setContentText(alert_text);
          alert.showAndWait();
     }
-    private bool isAdminInSpecialGroup(group_name) {
+    private Boolean isAdminInSpecialGroup(Optional<String> special_group_name) throws Exception {
     	databaseHelper = new DatabaseHelper();
     	boolean group_exists = databaseHelper.verifyTheGroupExists(group_name);
     	
@@ -435,8 +478,9 @@ public class adminPage extends Application {
     		return false;
 		}
     	
+    	return false;
     	// check if the admin is in the group
-    	HELP_FLAG_FUNCTION_TYPETHING_IM_TRYING_TO_MAKE_THIS_CATCH_UR_EYE();
+    	//HELP_FLAG_FUNCTION_TYPETHING_IM_TRYING_TO_MAKE_THIS_CATCH_UR_EYE();
     	
     	
     }
@@ -460,7 +504,7 @@ public class adminPage extends Application {
         Optional<String> result = usernameDialog.showAndWait();
         return result; 
     }
-	private bool deleteConfirmationDialogue() { // If they don't confirm returns false
+	private Boolean deleteConfirmationDialogue() { // If they don't confirm returns false
 		Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
 	    confirmationAlert.setTitle("Confirmation Dialogue");
 	    confirmationAlert.setHeaderText("Are you sure you want to proceed?");
@@ -470,75 +514,70 @@ public class adminPage extends Application {
 	    Optional<ButtonType> result = confirmationAlert.showAndWait();
 	
 	    // If the user confirms by clicking "Yes"
-	    return (result.isPresent() && result.get() == ButtonType.OK)
+	    return (result.isPresent() && result.get() == ButtonType.OK);
 	}
     
     //Special Group Main Methods
     
-    public void CreateRightsForGroup() {
+    public void CreateRightsForGroup() throws Exception {
         //Create the New Role and give admin that new role
     	databaseHelper = new DatabaseHelper();
     	
-    	if(!databaseHelper.verifyTheGroupExists(group_name))
+		if(!databaseHelper.verifyTheGroupExists(group_name))
     		databaseHelper.addSpecialGroup(group_name);
     	
     	
     	
     	
     }
-    public void EditRightsForGroup() {
+    public void EditRightsForGroup() throws Exception {
 		Optional<String> special_group_name = querySpecialGroupName();
     	
     	if(!isAdminInSpecialGroup(special_group_name)) { //Admin is Unathorized for action
-    		adminpage.showAlert1("This Admin is Unauthorized to perform desired action");
-    		break;
+    		shortAlert("This Admin is Unauthorized to perform desired action");
     	}
     	
     	//Edit 
-    	HELP_FLAG_FUNCTION_TYPETHING_IM_TRYING_TO_MAKE_THIS_CATCH_UR_EYE();
+    	//HELP_FLAG_FUNCTION_TYPETHING_IM_TRYING_TO_MAKE_THIS_CATCH_UR_EYE();
     }
-    public void DeleteRightsForGroup() {
+    public void DeleteRightsForGroup() throws Exception {
 		Optional<String> special_group_name = querySpecialGroupName();
     	
     	if(!isAdminInSpecialGroup(special_group_name)) { //Admin is Unathorized for action
-    		adminpage.showAlert1("This Admin is Unauthorized to perform desired action");
-    		break;
+    		shortAlert("This Admin is Unauthorized to perform desired action");
     	}
-    	HELP_FLAG_FUNCTION_TYPETHING_IM_TRYING_TO_MAKE_THIS_CATCH_UR_EYE();
+    	//HELP_FLAG_FUNCTION_TYPETHING_IM_TRYING_TO_MAKE_THIS_CATCH_UR_EYE();
     }
-    public void AssignSpecialGroupMembers() {
+    public void AssignSpecialGroupMembers() throws Exception {
 		Optional<String> special_group_name = querySpecialGroupName();
     	
     	if(!isAdminInSpecialGroup(special_group_name)) { //Admin is Unathorized for action
-    		adminpage.showAlert1("This Admin is Unauthorized to perform desired action");
-    		break;
+    		shortAlert("This Admin is Unauthorized to perform desired action");
     	}
     	
     	//Ask what users to give this role to	 
     	//And update their roles
-    	HELP_FLAG_FUNCTION_TYPETHING_IM_TRYING_TO_MAKE_THIS_CATCH_UR_EYE();
+    	//HELP_FLAG_FUNCTION_TYPETHING_IM_TRYING_TO_MAKE_THIS_CATCH_UR_EYE();
     }
-    public void AddSpecialGroupMember() {
+    public void AddSpecialGroupMember() throws Exception {
 		Optional<String> special_group_name = querySpecialGroupName();
     	
     	if(!isAdminInSpecialGroup(special_group_name)) { //Admin is Unathorized for action
-    		adminpage.showAlert1("This Admin is Unauthorized to perform desired action");
-    		break;
+    		shortAlert("This Admin is Unauthorized to perform desired action");
     	}
     	
     	Optional<String> target_username = queryForSpecificUser();
-    	HELP_FLAG_FUNCTION_TYPETHING_IM_TRYING_TO_MAKE_THIS_CATCH_UR_EYE();
+    	//HELP_FLAG_FUNCTION_TYPETHING_IM_TRYING_TO_MAKE_THIS_CATCH_UR_EYE();
     }
-    public void DeleteSpecialGroupMember() {
+    public void DeleteSpecialGroupMember() throws Exception {
 		Optional<String> special_group_name = querySpecialGroupName();
     	
     	if(!isAdminInSpecialGroup(special_group_name)) { //Admin is Unathorized for action
-    		adminpage.showAlert1("This Admin is Unauthorized to perform desired action");
-    		break;
+    	    shortAlert("This Admin is Unauthorized to perform desired action");
     	}
     	
     	Optional<String> target_username = queryForSpecificUser();
-    	HELP_FLAG_FUNCTION_TYPETHING_IM_TRYING_TO_MAKE_THIS_CATCH_UR_EYE();
+    	//HELP_FLAG_FUNCTION_TYPETHING_IM_TRYING_TO_MAKE_THIS_CATCH_UR_EYE();
 
     }
 }

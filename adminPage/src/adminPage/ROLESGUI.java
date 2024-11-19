@@ -473,5 +473,20 @@ public void restoreArticles() {
             showAlert1("Error", "Failed to Add Article", e.getMessage());
         }
     }
+
+	public void addStudent() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void deleteStudent() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void listStudents() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

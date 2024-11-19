@@ -8,6 +8,7 @@ import Encryption.EncryptionHelper;
 import java.util.ArrayList;
 import Encryption.EncryptionUtils;
 import java.util.List;
+import java.util.Optional;
 
 /***
 <p> Database class </p>
@@ -247,4 +248,14 @@ class DatabaseHelper {
             se.printStackTrace(); 
         } 
     }
+
+	public boolean verifyTheGroupExists(String group_name) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void addSpecialGroup(String group_name) {
+		// TODO Auto-generated method stub
+		
+	}
 }

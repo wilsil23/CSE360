@@ -275,7 +275,7 @@ class DatabaseHelper {
             }
         }
     }
-	public boolean doesSpecialGroupHaveRight(String group_name, char right_char) {
+	public boolean doesSpecialGroupHaveRight(String group_name, char right_char) throws SQLException {
 		String rights_string = getRightsStringForGroup(group_name);
 		boolean right_permission_granted = rights_string.indexOf(right_char) != -1;
 		return right_permission_granted;
