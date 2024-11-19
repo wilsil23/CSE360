@@ -26,6 +26,8 @@ import javafx.stage.Stage;
 
 
 public class adminPage extends Application {
+	private static DatabaseHelper databaseHelper; // Database helper instance for DB operations
+	
     linkedlist userList = new linkedlist();
     private final Random random = new Random(); // Random instance for code generation.
     ROLESGUI adminpage = new ROLESGUI();
@@ -410,10 +412,31 @@ public class adminPage extends Application {
         }
     }
     
+    //TEMPORARY FUNCTION TO FLAG PARTS I DIDNT FINISH, SO YOU DON'T HAVE TO LOOK THROUGH ALL THE COMMENTS AND JUST LOOK FOR THIS
+    private void HELP_FLAG_FUNCTION_TYPETHING_IM_TRYING_TO_MAKE_THIS_CATCH_UR_EYE() {
+    	return "THIS SHOULD GIVE AN ERROR PROBABLY";
+    }
+    
     //Special Group Helper Methods
-    private bool isAdminInSpecialGroup() {
-    	//This may be done in some other part of our program so I won't fill it out 
-    	//If it's already done somewhere else and we can **call that here** or just **delete this function and slightly alter code**  
+    private void shortAlert(alert_text) {
+    	 Alert alert = new Alert(Alert.AlertType.INFORMATION);
+         alert.setTitle(alert_text);
+         alert.setHeaderText(alert_text);
+         alert.setContentText(alert_text);
+         alert.showAndWait();
+    }
+    private bool isAdminInSpecialGroup(group_name) {
+    	databaseHelper = new DatabaseHelper();
+    	boolean group_exists = databaseHelper.verifyTheGroupExists(group_name);
+    	
+    	
+    	if(!group_exists) {
+    		shortAlert("The Special Group doesn't exist");
+    		return false;
+		}
+    	
+    	// check if the admin is in the group
+    	HELP_FLAG_FUNCTION_TYPETHING_IM_TRYING_TO_MAKE_THIS_CATCH_UR_EYE();
     	
     	
     }
@@ -453,16 +476,15 @@ public class adminPage extends Application {
     //Special Group Main Methods
     
     public void CreateRightsForGroup() {
-    	Optional<String> special_group_name = querySpecialGroupName();
+        //Create the New Role and give admin that new role
+    	databaseHelper = new DatabaseHelper();
     	
-    	if(!isAdminInSpecialGroup(special_group_name)) { //Admin is Unathorized for action
-    		adminpage.showAlert1("This Admin is Unauthorized to perform desired action");
-    		break;
-    	}
-        
-        
-        
-        
+    	if(!databaseHelper.verifyTheGroupExists(group_name))
+    		databaseHelper.addSpecialGroup(group_name);
+    	
+    	
+    	
+    	
     }
     public void EditRightsForGroup() {
 		Optional<String> special_group_name = querySpecialGroupName();
@@ -472,7 +494,8 @@ public class adminPage extends Application {
     		break;
     	}
     	
-    	
+    	//Edit 
+    	HELP_FLAG_FUNCTION_TYPETHING_IM_TRYING_TO_MAKE_THIS_CATCH_UR_EYE();
     }
     public void DeleteRightsForGroup() {
 		Optional<String> special_group_name = querySpecialGroupName();
@@ -481,6 +504,7 @@ public class adminPage extends Application {
     		adminpage.showAlert1("This Admin is Unauthorized to perform desired action");
     		break;
     	}
+    	HELP_FLAG_FUNCTION_TYPETHING_IM_TRYING_TO_MAKE_THIS_CATCH_UR_EYE();
     }
     public void AssignSpecialGroupMembers() {
 		Optional<String> special_group_name = querySpecialGroupName();
@@ -489,7 +513,10 @@ public class adminPage extends Application {
     		adminpage.showAlert1("This Admin is Unauthorized to perform desired action");
     		break;
     	}
-
+    	
+    	//Ask what users to give this role to	 
+    	//And update their roles
+    	HELP_FLAG_FUNCTION_TYPETHING_IM_TRYING_TO_MAKE_THIS_CATCH_UR_EYE();
     }
     public void AddSpecialGroupMember() {
 		Optional<String> special_group_name = querySpecialGroupName();
@@ -500,7 +527,7 @@ public class adminPage extends Application {
     	}
     	
     	Optional<String> target_username = queryForSpecificUser();
-
+    	HELP_FLAG_FUNCTION_TYPETHING_IM_TRYING_TO_MAKE_THIS_CATCH_UR_EYE();
     }
     public void DeleteSpecialGroupMember() {
 		Optional<String> special_group_name = querySpecialGroupName();
@@ -511,8 +538,7 @@ public class adminPage extends Application {
     	}
     	
     	Optional<String> target_username = queryForSpecificUser();
-    	
-    	
+    	HELP_FLAG_FUNCTION_TYPETHING_IM_TRYING_TO_MAKE_THIS_CATCH_UR_EYE();
 
     }
 }
