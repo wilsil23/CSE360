@@ -47,6 +47,12 @@ public class adminPage extends Application {
         Button Generatecode = new Button("Generate Code");
         Button DeleteUser = new Button("Delete Users");
         Button UpdateUser = new Button("Update Role");
+        Button createRightsForGroup new Button("Create Access Rights of Special Group");
+        Button editRightsForGroup new Button("Edit Access Rights of Special Group");
+        Button deleteRightsForGroup new Button("Delete Access Rights of Special Group");
+        Button assignSpecialGroupMembers Button("Assign Special Group Members");
+        Button addSpecialGroupMember new Button("Add Special Group Members");
+        Button deleteSpecialGroupMember new Button("Delete Special Group Members"); 
         
         AddUser.setOnAction(e -> addUser()); // Call addUser when clicked
 
@@ -163,10 +169,19 @@ public class adminPage extends Application {
         	 adminpage.showAlert("Error", "Update Failed", "An error occurred while updating the article: " + e.getMessage());
          }
      });
+     
+     //Special group actions
+     createRightsForGroup.setOnAction(e -> (CreateRightsForGroup));
+     editRightsForGroup.setOnAction(e -> (EditRightsForGroup));
+     deleteRightsForGroup.setOnAction(e -> (DeleteRightsForGroup));
+     assignSpecialGroupMembers.setOnAction(e -> (AssignSpecialGroupMembers));
+     addSpecialGroupMember.setOnAction(e -> (AddSpecialGroupMember));
+     deleteSpecialGroupMember.setOnAction(e -> (DeleteSpecialGroupMember));
+     
 
         // Layout setup
         VBox layout = new VBox(10);
-        layout.getChildren().addAll(AddUser, DeleteUser, ListUsers, UpdateUser, btnLogout, Generatecode,addArticleButton, deleteArticleButton, updateButton, listArticlesButton, backupArticlesButton, restoreArticlesButton);
+        layout.getChildren().addAll(AddUser, DeleteUser, ListUsers, UpdateUser, btnLogout, Generatecode,addArticleButton, deleteArticleButton, updateButton, listArticlesButton, backupArticlesButton, restoreArticlesButton, createRightsForGroup,editRightsForGroup,deleteRightsForGroup,assignSpecialGroupMembers,addSpecialGroupMember,deleteSpecialGroupMember);
 
         // Set up and show the stage
         Scene scene = new Scene(layout, 400, 300);
@@ -393,5 +408,111 @@ public class adminPage extends Application {
             	adminpage.showAlert1("Failure", "User Not Found", "No user with the username '" + username.get() + "' was found.");
             }
         }
+    }
+    
+    //Special Group Helper Methods
+    private bool isAdminInSpecialGroup() {
+    	//This may be done in some other part of our program so I won't fill it out 
+    	//If it's already done somewhere else and we can **call that here** or just **delete this function and slightly alter code**  
+    	
+    	
+    }
+    private Optional<String> querySpecialGroupName() {
+	    TextInputDialog groupnameDialog = new TextInputDialog();
+	    groupnameDialog.setTitle("Select Special Group");
+	    groupnameDialog.setHeaderText("Enter the name of the Special Group of interest");
+	    groupnameDialog.setContentText("Special Group:");
+	    
+	    Optional<String> special_group_name = groupnameDialog.showAndWait();
+	    
+	    return special_group_name;
+    }
+    private Optional<String> queryForSpecificUser(){
+    	TextInputDialog usernameDialog = new TextInputDialog();
+    	usernameDialog .setTitle("User Needed");
+    	usernameDialog .setHeaderText("Enter Username");
+    	usernameDialog .setContentText("Username:");
+
+        // Capture the input
+        Optional<String> result = usernameDialog.showAndWait();
+        return result; 
+    }
+	private bool deleteConfirmationDialogue() { // If they don't confirm returns false
+		Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+	    confirmationAlert.setTitle("Confirmation Dialogue");
+	    confirmationAlert.setHeaderText("Are you sure you want to proceed?");
+	    confirmationAlert.setContentText("");
+	
+	    // Wait for the user's response
+	    Optional<ButtonType> result = confirmationAlert.showAndWait();
+	
+	    // If the user confirms by clicking "Yes"
+	    return (result.isPresent() && result.get() == ButtonType.OK)
+	}
+    
+    //Special Group Main Methods
+    
+    public void CreateRightsForGroup() {
+    	Optional<String> special_group_name = querySpecialGroupName();
+    	
+    	if(!isAdminInSpecialGroup(special_group_name)) { //Admin is Unathorized for action
+    		adminpage.showAlert1("This Admin is Unauthorized to perform desired action");
+    		break;
+    	}
+        
+        
+        
+        
+    }
+    public void EditRightsForGroup() {
+		Optional<String> special_group_name = querySpecialGroupName();
+    	
+    	if(!isAdminInSpecialGroup(special_group_name)) { //Admin is Unathorized for action
+    		adminpage.showAlert1("This Admin is Unauthorized to perform desired action");
+    		break;
+    	}
+    	
+    	
+    }
+    public void DeleteRightsForGroup() {
+		Optional<String> special_group_name = querySpecialGroupName();
+    	
+    	if(!isAdminInSpecialGroup(special_group_name)) { //Admin is Unathorized for action
+    		adminpage.showAlert1("This Admin is Unauthorized to perform desired action");
+    		break;
+    	}
+    }
+    public void AssignSpecialGroupMembers() {
+		Optional<String> special_group_name = querySpecialGroupName();
+    	
+    	if(!isAdminInSpecialGroup(special_group_name)) { //Admin is Unathorized for action
+    		adminpage.showAlert1("This Admin is Unauthorized to perform desired action");
+    		break;
+    	}
+
+    }
+    public void AddSpecialGroupMember() {
+		Optional<String> special_group_name = querySpecialGroupName();
+    	
+    	if(!isAdminInSpecialGroup(special_group_name)) { //Admin is Unathorized for action
+    		adminpage.showAlert1("This Admin is Unauthorized to perform desired action");
+    		break;
+    	}
+    	
+    	Optional<String> target_username = queryForSpecificUser();
+
+    }
+    public void DeleteSpecialGroupMember() {
+		Optional<String> special_group_name = querySpecialGroupName();
+    	
+    	if(!isAdminInSpecialGroup(special_group_name)) { //Admin is Unathorized for action
+    		adminpage.showAlert1("This Admin is Unauthorized to perform desired action");
+    		break;
+    	}
+    	
+    	Optional<String> target_username = queryForSpecificUser();
+    	
+    	
+
     }
 }
