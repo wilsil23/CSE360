@@ -29,8 +29,8 @@ import javafx.stage.Stage;
 <p> instructorPage class </p>
 <p> Description: This acts as a GUI for the instructor homepage,
     including adding, retrieving, and deleting articles. </p>
-<p> Copyright: William Diamond, Carson Williams © 2024 </p>
-@author William Diamond, Carson Williams
+<p> Copyright: William Diamond, Carson Williams, Oscar Nguyen © 2024 </p>
+@author William Diamond, Carson Williams, Oscar Nguyen
 @version 5.00    2024-10-20 Updated for use at ASU
 */
 
@@ -54,6 +54,12 @@ public class instructorPage extends Application {
         Button listArticlesButton = new Button("List Articles");
         Button backupArticlesButton = new Button("Backup Articles");
         Button restoreArticlesButton = new Button("Restore Articles");
+        // new buttons for phase 3
+        Button addStudentButton = new Button("Add Student");
+        Button deleteStudentButton = new Button("Delete Student");
+        Button listStudentsButton = new Button("List Students");
+        
+        
         Button btnLogout = new Button("Logout");
 
         btnLogout.setOnAction(e -> {
@@ -117,6 +123,33 @@ public class instructorPage extends Application {
             	instructorPage.showAlert1("Error", "Failed to Restore Articles", ex.getMessage());
             }
         });
+     // added buttons for phase 3
+        addStudentButton.setOnAction(e -> {
+            try {
+                instructorPage.addStudent();
+            } catch (Exception ex) {
+                instructorPage.showAlert1("Error", "Failed to Add Student", ex.getMessage());
+            }
+        });
+        deleteStudentButton.setOnAction(e -> {
+            try {
+                instructorPage.deleteStudent();
+            } catch (Exception ex) {
+                instructorPage.showAlert1("Error", "Failed to Delete Student", ex.getMessage());
+            }
+        });
+        listStudentsButton.setOnAction(e -> {
+            try {
+                instructorPage.listStudents();
+            } catch (Exception ex) {
+                instructorPage.showAlert1("Error", "Failed to List Students", ex.getMessage());
+            }
+        });
+        // i dont get the special role crap
+        
+        
+       
+        
         Button updateButton = new Button("Update Article");
 
      // Set the action for the button
@@ -131,7 +164,7 @@ public class instructorPage extends Application {
 
         // Layout setup
         VBox layout = new VBox(10);
-        layout.getChildren().addAll(btnLogout, addArticleButton, deleteArticleButton, updateButton, listArticlesButton, backupArticlesButton, restoreArticlesButton);
+        layout.getChildren().addAll(btnLogout, addArticleButton, deleteArticleButton, updateButton, listArticlesButton, backupArticlesButton, restoreArticlesButton, addStudentButton, deleteStudentButton, listStudentsButton);
 
         // Set up and show the stage
         Scene scene = new Scene(layout, 400, 300);
