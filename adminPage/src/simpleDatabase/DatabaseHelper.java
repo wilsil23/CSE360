@@ -111,10 +111,14 @@ class DatabaseHelper {
                 + "body TEXT, "
                 + "keywords TEXT, "
                 + "references TEXT)";
+        
+        String specialRoleTable = "CREATE TABLE IF NOT EXISTS specialRoles (" 
+                + "role VARCHAR(20))";
 
         // Execute the SQL statements to create the tables
         statement.execute(userTable);
         statement.execute(articleTable);
+        statement.execute(specialRoleTable);
     }
 
     // Method to add a new article to the database
@@ -239,5 +243,34 @@ class DatabaseHelper {
         } catch (SQLException se) { 
             se.printStackTrace(); 
         } 
+    }
+    
+    // Method to update the list of special roles made
+    public void addSpecialGroup(String special_group_name) {
+    	
+        String insertGroup = "INSERT INTO specialRoles (role) VALUES (?)";
+        try (PreparedStatement pstmt = connection.prepareStatement(insertGroup)) {
+            // Set the parameters for the prepared statement
+            pstmt.setString(1, special_group_name);
+            
+            // Execute the update
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error inserting special role: " + e.getMessage());
+        }
+    }
+
+    // Method to verify if the special group exists
+	public boolean verifyTheGroupExists(String special_group_name) throws SQLException {
+        String query = "SELECT EXISTS (SELECT 1 FROM specialRoles WHERE role = ?)";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, special_group_name);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                resultSet.next();
+                return resultSet.getBoolean(1);
+            }
+        }
     }
 }
