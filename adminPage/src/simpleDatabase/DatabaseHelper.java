@@ -113,6 +113,7 @@ class DatabaseHelper {
                 + "references TEXT)";
         
         String specialRoleTable = "CREATE TABLE IF NOT EXISTS specialRoles (" 
+        		+ "rightsString VARCHAR(255), " 
                 + "role VARCHAR(20))";
 
         // Execute the SQL statements to create the tables
@@ -246,12 +247,13 @@ class DatabaseHelper {
     }
     
     // Method to update the list of special roles made
-    public void addSpecialGroup(String special_group_name) {
+    public void addSpecialGroup(String special_group_name, String rights_string) {
     	
-        String insertGroup = "INSERT INTO specialRoles (role) VALUES (?)";
+        String insertGroup = "INSERT INTO specialRoles (role, rightsString) VALUES (?,?)";
         try (PreparedStatement pstmt = connection.prepareStatement(insertGroup)) {
             // Set the parameters for the prepared statement
             pstmt.setString(1, special_group_name);
+            pstmt.setString(2, rights_string);
             
             // Execute the update
             pstmt.executeUpdate();
@@ -273,4 +275,28 @@ class DatabaseHelper {
             }
         }
     }
+	public boolean doesSpecialGroupHaveRight(String group_name, char right_char) {
+		String rights_string = getRightsStringForGroup(group_name);
+		boolean right_permission_granted = rights_string.indexOf(right_char) != -1;
+		return right_permission_granted;
+	}
+	
+	//Helper method
+	private String getRightsStringForGroup(String special_group_name) throws SQLException {
+	    String query = "SELECT rightsString FROM specialRoles WHERE role = ?";
+
+	    try (PreparedStatement statement = connection.prepareStatement(query)) {
+	        statement.setString(1, special_group_name);
+
+	        try (ResultSet resultSet = statement.executeQuery()) {
+	            if (resultSet.next()) {
+	                // Return the rightsString if the group exists
+	                return resultSet.getString(1);
+	            } else {
+	                // Return null if the group doesn't exist
+	                return null;
+	            }
+	        }
+	    }
+	}
 }
