@@ -107,19 +107,8 @@ public class ROLESGUI extends Application {
     }
 
     public void studentBTN(Stage secStage) {
-        secStage.setTitle("Student");
-        Button logoutButton = new Button("Logout");
-
-        // Logout action that returns to the login page
-        logoutButton.setOnAction(event -> {
-            LoginPage loginPage = new LoginPage();
-            loginPage.start(secStage); // Redirect to login page
-        });
-
-        StackPane root = new StackPane();
-        root.getChildren().add(logoutButton);
-        secStage.setScene(new Scene(root, 500, 450));
-        secStage.show();
+        studentPage studentpage = new studentPage();
+        studentpage.start(secStage);
     }
 
     public void backBTN() {
@@ -134,7 +123,11 @@ public class ROLESGUI extends Application {
 
 
 
+// Method to search the database
 
+public void Search(String keyword) throws Exception {
+	databaseHelper.keywordSearch(keyword);
+}
 
 
 
