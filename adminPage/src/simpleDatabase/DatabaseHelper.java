@@ -111,10 +111,15 @@ class DatabaseHelper {
                 + "body TEXT, "
                 + "keywords TEXT, "
                 + "references TEXT)";
+        
+        String specialRoleTable = "CREATE TABLE IF NOT EXISTS specialRoles (" 
+        		+ "rightsString VARCHAR(255), " 
+                + "role VARCHAR(20))";
 
         // Execute the SQL statements to create the tables
         statement.execute(userTable);
         statement.execute(articleTable);
+        statement.execute(specialRoleTable);
     }
 
     // Method to add a new article to the database
@@ -175,6 +180,58 @@ class DatabaseHelper {
         }
     }
 
+	/**********
+	 * This method searches the database by Title
+	 * @throws Exception 
+	 */
+	public void keywordSearch(String input) throws Exception {
+		String selected = "SELECT * FROM articles WHERE title LIKE ?";
+		try (PreparedStatement preparedStatement = connection.prepareStatement(selected)) {
+            // Add '%' around the user input for partial matching
+            preparedStatement.setString(1, "%" + input + "%");
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+            	int id  = rs.getInt("id"); 
+    			String title = rs.getString("title");	// Doesn't need decryption
+    			// Requires decryption
+    			String encryptedAuthor = rs.getString("author");
+    			char[] decryptedAuthor = EncryptionUtils.toCharArray(
+    					encryptionHelper.decrypt(
+    							Base64.getDecoder().decode(
+    									encryptedAuthor
+    							), 
+    							EncryptionUtils.getInitializationVector(title.toCharArray())
+    					)	
+    			);
+    			// Requires decryption
+    			String encryptedAbstract = rs.getString("ab");
+    			char[] decryptedAbstract = EncryptionUtils.toCharArray(
+    					encryptionHelper.decrypt(
+    							Base64.getDecoder().decode(
+    									encryptedAbstract
+    							), 
+    							EncryptionUtils.getInitializationVector(title.toCharArray())
+    					)	
+    			);
+
+    			// Displays the article values in terminal
+    			System.out.println("ID: " + id);
+    			System.out.println("Title: " + title);
+    			System.out.print("Author: "); 
+    			EncryptionUtils.printCharArray(decryptedAuthor);
+    			System.out.println();
+    			System.out.print("Abstract: "); 
+    			EncryptionUtils.printCharArray(decryptedAbstract);
+    			System.out.println();
+    			System.out.println();
+    			
+    			// Fills unneeded attributes
+    			Arrays.fill(decryptedAuthor, '0');
+    			Arrays.fill(decryptedAbstract, '0');
+    		}
+		}
+	}
+    
     // Method to close the database connection
     public void closeConnection() {
         try { 
@@ -188,4 +245,58 @@ class DatabaseHelper {
             se.printStackTrace(); 
         } 
     }
+    
+    // Method to update the list of special roles made
+    public void addSpecialGroup(String special_group_name, String rights_string) {
+    	
+        String insertGroup = "INSERT INTO specialRoles (role, rightsString) VALUES (?,?)";
+        try (PreparedStatement pstmt = connection.prepareStatement(insertGroup)) {
+            // Set the parameters for the prepared statement
+            pstmt.setString(1, special_group_name);
+            pstmt.setString(2, rights_string);
+            
+            // Execute the update
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error inserting special role: " + e.getMessage());
+        }
+    }
+
+    // Method to verify if the special group exists
+	public boolean verifyTheGroupExists(String special_group_name) throws SQLException {
+        String query = "SELECT EXISTS (SELECT 1 FROM specialRoles WHERE role = ?)";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, special_group_name);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                resultSet.next();
+                return resultSet.getBoolean(1);
+            }
+        }
+    }
+	public boolean doesSpecialGroupHaveRight(String group_name, char right_char) {
+		String rights_string = getRightsStringForGroup(group_name);
+		boolean right_permission_granted = rights_string.indexOf(right_char) != -1;
+		return right_permission_granted;
+	}
+	
+	//Helper method
+	private String getRightsStringForGroup(String special_group_name) throws SQLException {
+	    String query = "SELECT rightsString FROM specialRoles WHERE role = ?";
+
+	    try (PreparedStatement statement = connection.prepareStatement(query)) {
+	        statement.setString(1, special_group_name);
+
+	        try (ResultSet resultSet = statement.executeQuery()) {
+	            if (resultSet.next()) {
+	                // Return the rightsString if the group exists
+	                return resultSet.getString(1);
+	            } else {
+	                // Return null if the group doesn't exist
+	                return null;
+	            }
+	        }
+	    }
+	}
 }
