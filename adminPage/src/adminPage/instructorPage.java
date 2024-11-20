@@ -55,10 +55,7 @@ public class instructorPage extends Application {
         Button backupArticlesButton = new Button("Backup Articles");
         Button restoreArticlesButton = new Button("Restore Articles");
         // new buttons for phase 3
-        Button addStudentButton = new Button("Add Student");
-        Button deleteStudentButton = new Button("Delete Student");
-        Button listStudentsButton = new Button("List Students");
-        
+        Button groupButton = new Button("Group Management");
         
         Button btnLogout = new Button("Logout");
 
@@ -123,32 +120,60 @@ public class instructorPage extends Application {
             	instructorPage.showAlert1("Error", "Failed to Restore Articles", ex.getMessage());
             }
         });
-     // added buttons for phase 3
-        addStudentButton.setOnAction(e -> {
-            try {
-                instructorPage.addStudent();
-            } catch (Exception ex) {
-                instructorPage.showAlert1("Error", "Failed to Add Student", ex.getMessage());
-            }
-        });
-        deleteStudentButton.setOnAction(e -> {
-            try {
-                instructorPage.deleteStudent();
-            } catch (Exception ex) {
-                instructorPage.showAlert1("Error", "Failed to Delete Student", ex.getMessage());
-            }
-        });
-        listStudentsButton.setOnAction(e -> {
-            try {
-                instructorPage.listStudents();
-            } catch (Exception ex) {
-                instructorPage.showAlert1("Error", "Failed to List Students", ex.getMessage());
-            }
-        });
-        // i dont get the special role crap
-        // i think i need to work with carson on this
         
-       
+     // added new public method and buttons for phase 3, new window when creating a new group
+        groupButton.setOnAction(e -> GroupManagement(secStage));
+
+        private void GroupManagement(Stage secStage) {
+            
+            Stage dialog = new Stage();
+            dialog.setTitle("Group Management");
+
+            // Buttons for different actions
+            Button addStudentButton = new Button("Add Student");
+            Button deleteStudentButton = new Button("Delete Student");
+            Button listStudentsButton = new Button("View Students");
+            Button closeButton = new Button("Exit");
+            
+         // Add student to group
+            addStudentButton.setOnAction(e -> {
+                try {
+                    instructorPage.addStudent(); 
+                } catch (Exception ex) {
+                    instructorPage.showAlert1("Error", "Failed to Add Student", ex.getMessage());
+                }
+            });
+         // Delete student from group
+            deleteStudentButton.setOnAction(e -> {
+                try {
+                    instructorPage.deleteStudent(); 
+                } catch (Exception ex) {
+                    instructorPage.showAlert1("Error", "Failed to Delete Student", ex.getMessage());
+                }
+            });
+         // View list of students
+            listStudentsButton.setOnAction(e -> {
+                try {
+                    instructorPage.listStudents(); 
+                } catch (Exception ex) {
+                    instructorPage.showAlert1("Error", "Failed to List Students", ex.getMessage());
+                }
+            });
+         // Close button to return to the instructor page
+            closeButton.setOnAction(e -> {
+                dialog.close(); 
+            });
+
+            // Layout setup for dialog
+            VBox dialogLayout = new VBox(10);
+            dialogLayout.getChildren().addAll(addStudentButton, deleteStudentButton, listStudentsButton, closeButton);
+
+            // Set up scene and show the dialog
+            Scene dialogScene = new Scene(dialogLayout, 300, 200);
+            dialog.setScene(dialogScene);
+            dialog.show();
+        }
+    }
         
         Button updateButton = new Button("Update Article");
 
@@ -164,7 +189,7 @@ public class instructorPage extends Application {
 
         // Layout setup
         VBox layout = new VBox(10);
-        layout.getChildren().addAll(btnLogout, addArticleButton, deleteArticleButton, updateButton, listArticlesButton, backupArticlesButton, restoreArticlesButton, addStudentButton, deleteStudentButton, listStudentsButton);
+        layout.getChildren().addAll(btnLogout, addArticleButton, deleteArticleButton, updateButton, listArticlesButton, backupArticlesButton, restoreArticlesButton, groupButton);
 
         // Set up and show the stage
         Scene scene = new Scene(layout, 400, 300);
