@@ -28,12 +28,14 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class LoginPage extends Application {
+    private static DatabaseHelper databaseHelper; // Database helper for DB operations
 
     public final static double WINDOW_WIDTH = 500;
     public final static double WINDOW_HEIGHT = 530; // Adjusted height to accommodate new fields
 
-    public LoginPage() {
-    }
+    
+        
+ 
 
     @Override
     public void start(Stage primaryStage) {

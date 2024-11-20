@@ -8,13 +8,12 @@ import Encryption.EncryptionHelper;
 import java.util.ArrayList;
 import Encryption.EncryptionUtils;
 import java.util.List;
-import java.util.Optional;
 
 /***
 <p> Database class </p>
 <p> Description: This class manages database connections and operations,
     including creating tables, adding, retrieving, and deleting articles, while also handling encryption and database credentials. </p>
-<p> Copyright: Ivan Bustamante, Carson Williams © 2024 </p>
+<p> Copyright: Ivan Bustamante © 2024 </p>
 @author Ivan Bustamante Campana
 @version 5.00    2024-10-20 Updated for use at ASU
 */
@@ -34,7 +33,7 @@ class DatabaseHelper {
 
     // Connection and statement objects for database interaction
     private Connection connection = null;
-    private Statement statement = null; 
+    private static Statement statement = null; 
     private EncryptionHelper encryptionHelper;
 
     // Constructor initializes the encryption helper
@@ -98,15 +97,13 @@ class DatabaseHelper {
     
     
     // Private method to create necessary tables in the database
-    private void createTables() throws SQLException {
-        // SQL for creating the users table
+    private static void createTables() {
         String userTable = "CREATE TABLE IF NOT EXISTS cse360users (" 
                 + "id INT AUTO_INCREMENT PRIMARY KEY, "
                 + "email VARCHAR(255) UNIQUE, "
                 + "password VARCHAR(255), "
                 + "role VARCHAR(20))";
 
-        // SQL for creating the articles table
         String articleTable = "CREATE TABLE IF NOT EXISTS articles (" 
                 + "id INT AUTO_INCREMENT PRIMARY KEY, "
                 + "difficulty VARCHAR(255), "
@@ -117,9 +114,15 @@ class DatabaseHelper {
                 + "keywords TEXT, "
                 + "references TEXT)";
 
-        // Execute the SQL statements to create the tables
-        statement.execute(userTable);
-        statement.execute(articleTable);
+        try {
+            // Execute the SQL statements to create the tables
+            statement.execute(userTable);
+            statement.execute(articleTable);
+            System.out.println("Tables created successfully (if they did not already exist).");
+        } catch (SQLException e) {
+            System.err.println("Error creating tables: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     // Method to add a new article to the database
@@ -208,6 +211,61 @@ class DatabaseHelper {
             throw e; // Re-throw the exception to handle it elsewhere if needed
         }
     }
+ // Method to retrieve an article by its title
+    public Article getArticleByTitle(String title) throws SQLException {
+        String sql = "SELECT * FROM articles WHERE title = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, title); // Set the title parameter
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                // Create an Article object and populate it with data from the ResultSet
+                return new Article(
+                    rs.getInt("id"),
+                    rs.getString("difficulty"),
+                    rs.getString("title"),
+                    rs.getString("authors"),
+                    rs.getString("abstract"),
+                    rs.getString("body"),
+                    rs.getString("keywords"),
+                    rs.getString("references")
+                );
+            } else {
+                return null; // Return null if no article is found with the given title
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving article by title: " + e.getMessage());
+            throw e; // Re-throw the exception to handle it elsewhere if needed
+        }
+    }
+    
+ // Method to retrieve articles by difficulty
+    public List<Article> getArticlesByDifficulty(String difficulty) throws SQLException {
+        String sql = "SELECT * FROM articles WHERE difficulty = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, difficulty); // Set the difficulty parameter
+            ResultSet rs = pstmt.executeQuery();
+
+            List<Article> articles = new ArrayList<>();
+            while (rs.next()) {
+                // Create an Article object and populate it with data from the ResultSet
+                articles.add(new Article(
+                    rs.getInt("id"),
+                    rs.getString("difficulty"),
+                    rs.getString("title"),
+                    rs.getString("authors"),
+                    rs.getString("abstract"),
+                    rs.getString("body"),
+                    rs.getString("keywords"),
+                    rs.getString("references")
+                ));
+            }
+            return articles; // Return the list of articles
+        } catch (SQLException e) {
+            System.err.println("Error retrieving articles by difficulty: " + e.getMessage());
+            throw e; // Re-throw the exception to handle it elsewhere if needed
+        }
+    }
 
     
  // Method to update an article by its ID
@@ -248,63 +306,4 @@ class DatabaseHelper {
             se.printStackTrace(); 
         } 
     }
-
-	public boolean verifyTheGroupExists(String group_name) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public void addSpecialGroup(String group_name) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
-	public void keywordSearch(String input) throws Exception {
-		String selected = "SELECT * FROM articles WHERE title LIKE ?";
-		try (PreparedStatement preparedStatement = connection.prepareStatement(selected)) {
-            // Add '%' around the user input for partial matching
-            preparedStatement.setString(1, "%" + input + "%");
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-            	int id  = rs.getInt("id"); 
-    			String title = rs.getString("title");	// Doesn't need decryption
-    			// Requires decryption
-    			String encryptedAuthor = rs.getString("author");
-    			char[] decryptedAuthor = EncryptionUtils.toCharArray(
-    					encryptionHelper.decrypt(
-    							Base64.getDecoder().decode(
-    									encryptedAuthor
-    							), 
-    							EncryptionUtils.getInitializationVector(title.toCharArray())
-    					)	
-    			);
-    			// Requires decryption
-    			String encryptedAbstract = rs.getString("ab");
-    			char[] decryptedAbstract = EncryptionUtils.toCharArray(
-    					encryptionHelper.decrypt(
-    							Base64.getDecoder().decode(
-    									encryptedAbstract
-    							), 
-    							EncryptionUtils.getInitializationVector(title.toCharArray())
-    					)	
-    			);
-
-    			// Displays the article values in terminal
-    			System.out.println("ID: " + id);
-    			System.out.println("Title: " + title);
-    			System.out.print("Author: "); 
-    			EncryptionUtils.printCharArray(decryptedAuthor);
-    			System.out.println();
-    			System.out.print("Abstract: "); 
-    			EncryptionUtils.printCharArray(decryptedAbstract);
-    			System.out.println();
-    			System.out.println();
-    			
-    			// Fills unneeded attributes
-    			Arrays.fill(decryptedAuthor, '0');
-    			Arrays.fill(decryptedAbstract, '0');
-    		}
-		}
-	}
 }
