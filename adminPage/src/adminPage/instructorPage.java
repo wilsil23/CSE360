@@ -1,5 +1,6 @@
 package adminPage;
 import javafx.geometry.Pos;
+
 import java.io.ByteArrayOutputStream;
 import javafx.scene.Scene;
 import java.io.PrintStream;
@@ -29,6 +30,19 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+
+
+
+
+/***
+<p> Instructor Page with functionalitys</p>
+<p> Description: This class provides methods and also design for our instructor page. It has all the functionalities. </p>
+<p> Copyright: Ivan Bustamante, Carson Williams © 2024 </p>
+@author Ivan Bustamante Campana, Carson Williams
+@version 5.00    2024-10-20 Updated for use at ASU
+*/
+
 
 public class instructorPage extends Application {
 	 	private static DatabaseHelper databaseHelper; // Database helper for DB operations

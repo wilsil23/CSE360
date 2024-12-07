@@ -15,6 +15,18 @@ import java.sql.SQLException;
 import java.util.List;
 
 
+
+
+
+/***
+<p> Student page with search functionalitys</p>
+<p> Description: This class provides the student page with search functionalities for articles and also able to send messages to instructor/admin </p>
+<p> Copyright: Ivan Bustamante, Oscar Nguyen © 2024 </p>
+@author Ivan Bustamante Campana, Oscar Nguyen
+@version 5.00    2024-10-20 Updated for use at ASU
+*/
+
+
 public class studentPage extends Application {
 
     private static DatabaseHelper databaseHelper; // Assuming you have a DatabaseHelper for querying the DB

@@ -3,6 +3,7 @@ package adminPage;
 
 /*******
 * <p> LoginPage Class </p> 
+
 * 
 * <p> Description: A JavaFX demonstration application and baseline for a sequence of projects </p>
 * 

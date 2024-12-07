@@ -17,6 +17,14 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 
+/***
+<p> Roles Page with functionalitys and redirects to certain page based on user role</p>
+<p> Description: This class provides redirects to different role page based on the users role </p>
+<p> Copyright: Ivan Bustamante, Oscar Nguyen © 2024 </p>
+@author Ivan Bustamante Campana, Oscar Nguyen
+@version 5.00    2024-10-20 Updated for use at ASU
+*/
+
 
 public class ROLESGUI extends Application {
 

@@ -2,6 +2,7 @@ package adminPage;
 
 /*******
 * <p> UserNode Class </p>
+
 * 
 * <p> Description: A Java file consisting of the construction of nodes used for a linked list </p>
 * 

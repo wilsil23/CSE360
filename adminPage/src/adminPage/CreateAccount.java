@@ -1,6 +1,7 @@
 package adminPage;
 /*******
  * <p> CreateAccountPage Class </p>
+
  * 
  * <p> Description: A simple JavaFX demonstration application for creating an account. </p>
  * 

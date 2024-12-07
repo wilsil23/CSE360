@@ -16,6 +16,18 @@ Interface testbed
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+
+
+
+/***
+<p> Main Method</p>
+<p> Description: This main method is where everything is originally ran from </p>
+<p> Copyright: Ivan Bustamante, Oscar Nguyen © 2024 </p>
+@author Ivan Bustamante Campana, Oscar Nguyen
+@version 5.00    2024-10-20 Updated for use at ASU
+*/
+
+
 public class Main extends Application {
 
     public static void main(String[] args) {

@@ -26,6 +26,22 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 
+
+
+
+
+/***
+<p> Admin Page with functionalitys</p>
+<p> Description: This class provides methods and also design for our admin page. It has all the functionalities. </p>
+<p> Copyright: Ivan Bustamante, Oscar Nguyen © 2024 </p>
+@author Ivan Bustamante Campana, Oscar Nguyen
+@version 5.00    2024-10-20 Updated for use at ASU
+*/
+
+
+
+
+
 public class adminPage extends Application {
     private static DatabaseHelper databaseHelper; // Database helper for DB operations
     private static BackupRestoreHelper backupRestoreHelper = new BackupRestoreHelper(); // Backup and restore helper
